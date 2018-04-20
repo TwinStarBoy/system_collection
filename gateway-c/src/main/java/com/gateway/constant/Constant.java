@@ -16,5 +16,6 @@ public class Constant {
 		ALLOW_URL.add("/crm/crm-test/onlineManage/emailAutoLogin"); 
 		ALLOW_URL.add("/crm/crm-test/onlineManage/checkEmailUnique");
 		ALLOW_URL.add("/crm/crm-test/onlineManage/checkUsernameUnique");
+		ALLOW_URL.add("/crm/crm-test/onlineManage/verifyCode");
 	}
 }
