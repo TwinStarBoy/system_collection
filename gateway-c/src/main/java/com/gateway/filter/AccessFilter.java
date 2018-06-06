@@ -53,24 +53,8 @@ public class AccessFilter extends ZuulFilter  {
         log.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
         
         String sessionId = request.getSession().getId();
-//        Cookie[] cookies = request.getCookies(); 
-//        for(Cookie cookie : cookies){
-//        	if(cookie.getName().equalsIgnoreCase("jsessionid"))    
-//            {    
-//        		sessionId = cookie.getValue();    
-//             }   
-//        }
+
         log.info("sessionId:"+sessionId);
-        
-        /*Object accessToken = request.getParameter("accessToken");
-        if(accessToken == null) {
-            log.warn("access token is empty");
-            ctx.setSendZuulResponse(false);
-            ctx.setResponseStatusCode(401);
-            return null;
-        }
-        log.info("access token ok");*/
-        
 
         HttpServletResponse response = ctx.getResponse();
         response.addHeader("Access-Control-Allow-Origin", "*");
@@ -99,7 +83,7 @@ public class AccessFilter extends ZuulFilter  {
         String routeUrl = StringUtil.getRouteStr(sevletPath);
         
         if(Constant.ADD_CLIENTID_URL.contains(routeUrl)){
-        	RequestUtil.addClientId(ctx);
+        	RequestUtil.addClientId(ctx,body);
         }
         
 //         obj =  redisTemplate.opsForValue().get(sessionId);
@@ -136,26 +120,6 @@ public class AccessFilter extends ZuulFilter  {
             ctx.getResponse().setContentType("application/json;charset=UTF-8");
             return null;
         }
-        
-        
-//        final byte[] reqBodyBytes = body.getBytes();
-//        
-//        ctx.setRequest(new HttpServletRequestWrapper(ctx.getRequest()) {
-//            @Override
-//            public ServletInputStream getInputStream() throws IOException {
-//                return new ServletInputStreamWrapper(reqBodyBytes);
-//            }
-//
-//            @Override
-//            public int getContentLength() {
-//                return reqBodyBytes.length;
-//            }
-//
-//            @Override
-//            public long getContentLengthLong() {
-//                return reqBodyBytes.length;
-//            }
-//        });
         
         return null;
     }
