@@ -8,6 +8,11 @@ public class Constant {
 	
 	public static List<String> ALLOW_URL = new ArrayList<String>();
 	
+	public static String getUserInfo = "/crm/getUserInfo";
+	
+	public static List<String> ADD_CLIENTID_URL = new ArrayList<String>();
+	
+	
 	static {
 		ALLOW_URL.add("/crm/crm-test/onlineManage/login");
 		ALLOW_URL.add("/crm/crm-test/onlineManage/forgetPassword");
@@ -17,5 +22,8 @@ public class Constant {
 		ALLOW_URL.add("/crm/crm-test/onlineManage/checkEmailUnique");
 		ALLOW_URL.add("/crm/crm-test/onlineManage/checkUsernameUnique");
 		ALLOW_URL.add("/crm/crm-test/onlineManage/verifyCode");
+		
+		ADD_CLIENTID_URL.add("publisher");
+		ADD_CLIENTID_URL.add("subscriber");
 	}
 }

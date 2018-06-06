@@ -14,7 +14,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import com.alibaba.fastjson.JSONObject;
 import com.gateway.bean.User;
 import com.gateway.constant.Constant;
+import com.gateway.util.RequestUtil;
 import com.gateway.util.ResponseUtil;
+import com.gateway.util.StringUtil;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 
@@ -78,13 +80,27 @@ public class AccessFilter extends ZuulFilter  {
         
         //获取请求资源路径  
         String sevletPath = request.getServletPath();
-        log.info("sevletPaht:" + sevletPath);
+        log.info("sevletPath:" + sevletPath);
         
         if(Constant.ALLOW_URL.contains(sevletPath)){
         	return null;
         }
         
         String body = stringRedisTemplate.opsForValue().get(sessionId);
+        
+        if(Constant.getUserInfo.equals(sevletPath)){//查看个人信息
+        	ctx.setSendZuulResponse(false);
+            ctx.setResponseStatusCode(200);
+            ctx.setResponseBody(body);
+            ctx.getResponse().setContentType("application/json;charset=UTF-8");
+            return null;
+        }
+        
+        String routeUrl = StringUtil.getRouteStr(sevletPath);
+        
+        if(Constant.ADD_CLIENTID_URL.contains(routeUrl)){
+        	RequestUtil.addClientId(ctx);
+        }
         
 //         obj =  redisTemplate.opsForValue().get(sessionId);
         
@@ -96,6 +112,8 @@ public class AccessFilter extends ZuulFilter  {
             ctx.getResponse().setContentType("application/json;charset=UTF-8");
             return null;
         }
+        
+        
         
         stringRedisTemplate.opsForValue().set(sessionId, body ,180, TimeUnit.SECONDS);
         
