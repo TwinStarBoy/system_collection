@@ -17,7 +17,7 @@ import com.netflix.zuul.http.HttpServletRequestWrapper;
 import com.netflix.zuul.http.ServletInputStreamWrapper;
 
 public class RequestUtil {
-	public static void addClientId(RequestContext ctx , String customerDetail) {
+	public static void addClientId(RequestContext ctx , String customerDetail) throws Exception {
 		try {
 			Map map = JSON.parseObject(customerDetail);
 			String id = (String) map.get("id");
@@ -27,8 +27,13 @@ public class RequestUtil {
 					.copyToString(in, Charset.forName("UTF-8"));
 			System.out.println("body:" + body);
 			JSONObject json = JSONObject.parseObject(body);
+			
+			if (!id.equals(json.get("clientid"))){
+				throw new Exception("clientid is illegal");
+			}
+			
 			json.put("clientid", id);
-			json.put("poid", id);
+//			json.put("poid", id);
 			String newBody = json.toString();
 			System.out.println("newBody:" + newBody);
 			final byte[] reqBodyBytes = newBody.getBytes();
@@ -55,4 +60,5 @@ public class RequestUtil {
 		}
 
 	}
+	
 }

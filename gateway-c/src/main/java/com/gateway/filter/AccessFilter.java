@@ -66,12 +66,14 @@ public class AccessFilter extends ZuulFilter  {
         String sevletPath = request.getServletPath();
         log.info("sevletPath:" + sevletPath);
         
+        //url白名单
         if(Constant.ALLOW_URL.contains(sevletPath)){
         	return null;
         }
         
         String body = stringRedisTemplate.opsForValue().get(sessionId);
         
+        //查看个人信息url
         if(Constant.getUserInfo.equals(sevletPath)){//查看个人信息
         	ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(200);
@@ -82,12 +84,25 @@ public class AccessFilter extends ZuulFilter  {
         
         String routeUrl = StringUtil.getRouteStr(sevletPath);
         
+        //需要加clientid的url,这样的url请求参数是json格式
         if(Constant.ADD_CLIENTID_URL.contains(routeUrl)){
-        	RequestUtil.addClientId(ctx,body);
+        	try {
+				RequestUtil.addClientId(ctx,body);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				log.error(e.getMessage(), e);
+				ctx.setSendZuulResponse(false);
+	            ctx.setResponseStatusCode(401);
+	            String json = JSONObject.toJSON(ResponseUtil.setResult("9999", "please login")).toString();
+	            ctx.setResponseBody(json);
+	            ctx.getResponse().setContentType("application/json;charset=UTF-8");
+	            return null;
+			}
         }
         
 //         obj =  redisTemplate.opsForValue().get(sessionId);
         
+        //登录校验
         if(null == body ){
         	ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(401);
@@ -100,7 +115,7 @@ public class AccessFilter extends ZuulFilter  {
         
         
         stringRedisTemplate.opsForValue().set(sessionId, body ,180, TimeUnit.SECONDS);
-        
+        /*
         String username = request.getParameter("username");
         
         if(username == null || "".equals(username)){
@@ -112,7 +127,7 @@ public class AccessFilter extends ZuulFilter  {
         }
         
         User user = JSONObject.parseObject(body, User.class);
-        
+        //参数校验，查看是否是本人
         if(!username.equals(user.getUsername())){
         	ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(401);
@@ -120,7 +135,7 @@ public class AccessFilter extends ZuulFilter  {
             ctx.getResponse().setContentType("application/json;charset=UTF-8");
             return null;
         }
-        
+        */
         return null;
     }
 
