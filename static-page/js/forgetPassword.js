@@ -1,3 +1,23 @@
+$(function(){
+	changeImage();
+});
+
+var rnd ;
+
+function getRandom(){
+	var timestamp = new Date().getTime();
+
+	return timestamp + Math.random();
+}
+
+function changeImage(){
+	rnd = getRandom();
+	var src = urlPrefix() + "crm-test/onlineManage/verifyCode?rnd=" + rnd;  
+	$("#img_code").attr("src",src);
+}
+
+
+
 function forgetPassword(){
 	var email = $("#email").val();
 	

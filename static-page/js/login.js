@@ -24,6 +24,15 @@ function login(){
 				return ;
 			}
 			if(data.returnCode == "0000"){
+				sessionStorage.customerId = data.lists[0].id;
+				sessionStorage.username = data.lists[0].username;
+				console.log("customerDetail:"+sessionStorage.customerDetail);
+
+                var cookie = "clientid=" + data.lists[0].id ; 
+                var cookie1 = "username=" + data.lists[0].username ;
+                document.cookie = cookie ;
+                document.cookie = cookie1 ;
+
 				window.location.href = "profile.html?username=" + data.lists[0].username;
 			}else{
 				BootstrapDialog.show({  
