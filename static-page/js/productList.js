@@ -350,6 +350,7 @@ var faceName ;
 						side:side,
 						username:username,
 						messageid:messageid_global,
+						requestid:generateUUID(),
 						poid:poid,
 						clientid:clientid
 					};
@@ -371,7 +372,8 @@ var faceName ;
 							poid:data.poid,
 							pnsgid:data.pnsgid,
 							pnsid:data.pnsid,
-							side:data.side
+							side:data.side,
+							clientid:getCookie("clientid")
 						};
 						searchOneOrder(searchParams);//²éÑ¯¶©µ¥×´Ì¬
 			        }

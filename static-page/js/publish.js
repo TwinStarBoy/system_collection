@@ -21,6 +21,8 @@ function publish(){
 	var clientid = getCustomerId();
 
 	var params = {
+		    messageid:"7001",
+		    requestid:generateUUID(),
 			price:price,
 			quant:quant,
 			min:min,

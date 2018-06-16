@@ -6,8 +6,8 @@ $(function(){
 });
 var url = "jsonTest/publisher.json?adc=1&cde=1&333";
 
-var pnsid = 1;
-var pnsgid = 8;
+var pnsid_global = 1;
+var pnsgid_global = 8;
 var cid = getCustomerId();
 var poid = getCustomerId();
 
@@ -38,8 +38,8 @@ function createData(){
 			            "data": function ( d ) {
 			            	  
 			            	  
-			            	  d.pnsid = pnsid;
-			            	  d.pnsgid = pnsgid;
+			            	  d.pnsid = pnsid_global;
+			            	  d.pnsgid = pnsgid_global;
 			            	  d.poid = poid;
 			            	  d.cid = getCustomerId();
 			            	  d.messageid = '602B';
@@ -161,17 +161,19 @@ var faceName ;
 
 					var side = addDetail("side",data.side);
 	
-				    var messageid = addDetail("messageid",data.messageid);
+				    
 
 				    var oid = addDetail("oid",data.oid);
 
 				    var type = addDetail("type",'D');
+
+				    var poid = addDetail("poid",data.poid);
 				   
 				    var form = $("#form");
 
 					form.empty();//情况form
 
-				    form.append(oid,price,quant,pnsoid,side,messageid,type);
+				    form.append(oid,price,quant,pnsoid,side,type,poid);
 
 				    $('#myModal').modal({
 				    	backdrop: 'static',//点击遮罩层不关闭模态框
@@ -249,8 +251,8 @@ var faceName ;
                             	side:strData.side,
                             	pnsoid:strData.pnsoid,
                             	poid:strData.poid,
-                            	pnsid:pnsid,
-                            	pnsgid:pnsgid,
+                            	pnsid:pnsid_global,
+                            	pnsgid:pnsgid_global,
                             	price:strData.price,
                             	quant:strData.quant
                             };
@@ -360,7 +362,7 @@ var faceName ;
 				});
 	        }
 			
-			$("#submit").on("click",function(){
+			$("#submit2").on("click",function(){
                 
 				//var pnsid = pnsid;
 
@@ -383,11 +385,11 @@ var faceName ;
 				var username = getParam("username");
 
 				var params = {
-					    pnsid:pnsid,
+					    pnsid:pnsid_global,
 						price:price,
 						quant:quant,
 						pnsoid:pnsoid,
-						pnsgid:pnsgid,
+						pnsgid:pnsgid_global,
 						side:side,
 						username:username,
 						messageid:"32323",
@@ -432,4 +434,54 @@ var faceName ;
 				return detail;
 			}
 
+			$("#submit").on("click",function(){
+				dCancel();
+			});
+
+			function dCancel(){
+				var price = $("input[name='price']").val();
+
+				var quant = $("input[name='quant']").val();
+				
+				var pnsoid = $("input[name='pnsoid']").val();
+
+				var side = $("input[name='side']").val();
+
+				var oid = $("input[name='oid']").val();
+
+				var type = $("input[name='type']").val();
+
+				var poid = $("input[name='poid']").val();
+				
+				var username = getParam("username");
+
+				var params = {
+					    messageid : "701E" ,
+					    requestid : generateUUID() ,
+					    clientid : getCookie("clientid") ,
+					    oid : oid ,
+					    cid : getCookie("clientid"),//????为什么
+					    side : side ,
+					    pnsoid : pnsoid ,
+					    poid : poid,
+					    pnsid : pnsid_global,
+					    pnsgid : pnsgid_global,
+					    price : price ,
+					    quant : quant
+					};
+
+				$.ajax({
+					url:urlNewTradePrefix() + "dcancel",
+					contentType : 'application/json',
+					data:JSON.stringify(params),
+					type: 'POST',
+					success:function(data){
+						console.log(data);
+
+						closeModal();//关闭模态框
+
+						resetTable();//刷新表格
+					}
+				});
+			}
 			
