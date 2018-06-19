@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -27,6 +28,9 @@ public class AccessFilter extends ZuulFilter  {
 	
 	@Autowired
     private RedisTemplate<String, Object> redisTemplate;
+	
+	@Value("${httpSessionTimeOut}")
+	private int httpSessionTimeOut;
 	
     private static Logger log = LoggerFactory.getLogger(AccessFilter.class);
 
@@ -114,7 +118,7 @@ public class AccessFilter extends ZuulFilter  {
         
         
         
-        stringRedisTemplate.opsForValue().set(sessionId, body ,180, TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue().set(sessionId, body ,httpSessionTimeOut, TimeUnit.SECONDS);
         /*
         String username = request.getParameter("username");
         

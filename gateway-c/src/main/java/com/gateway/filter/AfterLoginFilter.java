@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StreamUtils;
@@ -29,6 +30,9 @@ public class AfterLoginFilter extends ZuulFilter {
 	
 	@Autowired
     private RedisTemplate<String, Object> redisTemplate;
+	
+	@Value("${httpSessionTimeOut}")
+	private int httpSessionTimeOut;
 	
 	@Override
 	public Object run() {
@@ -68,7 +72,7 @@ public class AfterLoginFilter extends ZuulFilter {
             return null;
 		}
         
-        stringRedisTemplate.opsForValue().set(sessionId, obj.toString() ,180, TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue().set(sessionId, obj.toString() ,httpSessionTimeOut, TimeUnit.SECONDS);
         
 //        redisTemplate.opsForValue().set(sessionId, obj, 180, TimeUnit.SECONDS);
         ctx.setResponseBody(body);

@@ -29,10 +29,10 @@ public class RedisConfig {
     @Value("${spring.redis.timeout}")  
     private int timeout;  
 
-    @Bean
-    JedisConnectionFactory jedisConnectionFactory() {
-        return new JedisConnectionFactory();//总是连接本地的redis，要使用自定义的JedisConnectionFactory
-    }
+//    @Bean
+//    JedisConnectionFactory jedisConnectionFactory() {
+//        return new JedisConnectionFactory();//总是连接本地的redis，要使用自定义的JedisConnectionFactory
+//    }
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
@@ -44,26 +44,26 @@ public class RedisConfig {
     }
     
     
-//    @Bean  
-//    public RedisConnectionFactory jedisConnectionFactory(){  
-//        JedisPoolConfig poolConfig=new JedisPoolConfig();  
-//        poolConfig.setMaxIdle(maxIdl);  
-//        poolConfig.setMinIdle(minIdl);  
-//        poolConfig.setTestOnBorrow(true);  
-//        poolConfig.setTestOnReturn(true);  
-//        poolConfig.setTestWhileIdle(true);  
-//        poolConfig.setNumTestsPerEvictionRun(10);  
-//        poolConfig.setTimeBetweenEvictionRunsMillis(60000);  
-//        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(poolConfig);  
-//        jedisConnectionFactory.setHostName(hostName);   
-//        if(!passWord.isEmpty()){   
-//            jedisConnectionFactory.setPassword(passWord);   
-//        }   
-//        jedisConnectionFactory.setPort(port);   
-//        jedisConnectionFactory.setDatabase(database);  
-//        jedisConnectionFactory.setTimeout(timeout);
-//        return jedisConnectionFactory;  
-//    } 
+    @Bean  
+    public RedisConnectionFactory jedisConnectionFactory(){  
+        JedisPoolConfig poolConfig=new JedisPoolConfig();  
+        poolConfig.setMaxIdle(maxIdl);  
+        poolConfig.setMinIdle(minIdl);  
+        poolConfig.setTestOnBorrow(true);  
+        poolConfig.setTestOnReturn(true);  
+        poolConfig.setTestWhileIdle(true);  
+        poolConfig.setNumTestsPerEvictionRun(10);  
+        poolConfig.setTimeBetweenEvictionRunsMillis(60000);  
+        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(poolConfig);  
+        jedisConnectionFactory.setHostName(hostName);   
+        if(!passWord.isEmpty()){   
+            jedisConnectionFactory.setPassword(passWord);   
+        }   
+        jedisConnectionFactory.setPort(port);   
+        jedisConnectionFactory.setDatabase(database);  
+        jedisConnectionFactory.setTimeout(timeout);
+        return jedisConnectionFactory;  
+    } 
     
 
 }
