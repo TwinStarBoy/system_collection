@@ -74,7 +74,7 @@ function createData(){
 			            	    if(row["net"] > 0){
 
 			            	    	operate += ' | ' ;
-				                	operate += '<a href="javascript:void(0);" onclick="cancel(this)" style="cursor:pointer">cancel</a>' ;
+				                	operate += '<a href="javascript:void(0);" onclick="cancelConfirm(this)" style="cursor:pointer">cancel</a>' ;
 				                
 			            	    }
 			            	    return operate ;
@@ -145,6 +145,30 @@ function scanOrder(object){
 					console.log(data);
 
 					window.open("scanOrder.html?username="+getParam("username")+"&pnsoid="+data.pnsoid);
+}
+
+function cancelConfirm(object){
+            BootstrapDialog.show({  
+							closable: true, 
+							title: "confirm",
+				            message: "Do you want to continue ?",
+				            buttons: [{
+				            	label: 'cancel',
+							    action: function(dialogRef){
+							      dialogRef.close();   //总是能关闭弹出框
+							      
+							    }
+				            },
+				            {
+				            	label: 'confirm',
+							    action: function(dialogRef){
+							    	
+							      	dialogRef.close();   //总是能关闭弹出框
+							      	cancel(object)
+							      
+							    }
+				            }]
+				        });
 }
 			
 function cancel(object){
