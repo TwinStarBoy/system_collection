@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>CRM-M</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="./easyui.css">
+		<link rel="stylesheet" type="text/css" href="./icon.css">
+		
+		<style type="text/css">
+			.panel-htop > .panel-body {
+				overflow: hidden
+			}
+		</style>
+		<script type="text/javascript" src="./jquery.min.js"></script>
+		<script type="text/javascript" src="./jquery.easyui.min.js"></script>
+		<script type="text/javascript">
+		
+			var _menus = {
+				"menus":[{
+					"menuid":"1","icon":"icon-sys","menuname":"系统设置",
+							"menus":[
+									{"menuid":"15","menuname":"权限设置","icon":"icon-set","url":"permission.html"}
+								]
+				}]
+			};
+
+		</script>
+		<script type="text/javascript" src="./js/index.js"></script>
+	</head>
+
+	<body class="easyui-layout">
+		<div region="north" split="true" border="false" style="overflow: hidden; height: 40px;
+        background: url(images/layout-browser-hd-bg.gif) #7f99be repeat-x center 50%;
+        line-height: 30px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
+	        <span style="float:right; padding-right:20px;" class="head">
+	        	欢迎 登陆者 
+	        	<a href="#" id="editpass" style="color:#FFF">修改密码</a> 
+	        	<a href="#" id="loginOut" style="color:#FFF">安全退出</a>
+	        </span>
+	        <span style="padding-left:10px; font-size: 16px; ">
+	        	<img src="images/blocks.gif" width="20" height="20" align="absmiddle" /> 用户中心管理系统
+	        </span>
+    	</div>
+
+		<div region="west" hide="true" split="true" title="导航菜单" style="width:180px;" id="west">
+			<div id="nav" class="easyui-accordion" fit="true" border="false">
+					<!--  导航内容 -->
+							
+			</div>
+
+		</div>
+		
+		<div id="mainPanle" region="center" style="background: #eee; overflow-y:hidden">
+	        <div id="tabs" class="easyui-tabs"  fit="true" border="false" >
+				<div title="欢迎使用" style="padding:20px;overflow:hidden; color:red; " >
+					<h1 style="font-size:24px;">* 团队：墨玉科技</h1>
+					<h1 style="font-size:24px;">* 公众号: <a style="font-size:24px;color:green;" href="http://www.blackjade.com">墨玉科技公众号</a></h1>
+					<h1 style="font-size:24px;">* 讨论群：xxxxxxxx</h1>
+				</div>
+			</div>
+	    </div>
+
+
+
+	    <div id="rh-menu" class="easyui-menu" style="width:200px;">
+			<div id="rh-menu-tabupdate">刷新</div>
+			<div class="menu-sep"></div>
+			<div id="rh-menu-tabclose">关闭</div>
+			<div id="rh-menu-tabcloseall">全部关闭</div>
+			<div id="rh-menu-tabcloseother">除此之外全部关闭</div>
+			<div class="menu-sep"></div>
+			<div id="rh-menu-tabcloseright">当前页右侧全部关闭</div>
+			<div id="rh-menu-tabcloseleft">当前页左侧全部关闭</div>
+			<div class="menu-sep"></div>
+			<div id="rh-menu-exit">退出</div>
+		</div>
+	</body>
+
+</html>
