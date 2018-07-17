@@ -12,16 +12,28 @@ $(function() {
 
 function checkUsernameUnique(){
 	var username = $("#username").val();
+	var params = {
+		messageid:"0x0027",
+	    requestid:generateUUID(),
+		username:username
+	};
 	$.ajax({
-		url:urlPrefix() + "/crm-test/onlineManage/checkUsernameUnique",
-		data:{username:username},
+		url:urlPrefix() + "cCheckUsernameUnique",
+		data:JSON.stringify( params ),
 		type: 'POST',
+		contentType : 'application/json',
 		success:function(data){
 			console.log(data);
-			if(data.returnCode == "00000"){
-				$("#alert_msg").html("username is available");
+			$("#username_alert_msg").remove();
+			$("#username").after("<span id='username_alert_msg'></span>");
+			if(data.status == "SUCCESS"){
+				
+				$("#username_alert_msg").css('color','green');
+				$("#username_alert_msg").html("username is available");
 			}else{
-				$("#alert_msg").html(data.returnDesc);
+				
+				$("#username_alert_msg").css('color','red');
+				$("#username_alert_msg").html("username is not available");
 			}
         }
 	});
@@ -30,17 +42,28 @@ function checkUsernameUnique(){
 function checkEmailUnique(){
 	
 	var email = $("#email").val();
-	
+	var params = {
+		messageid:"0x0029",
+	    requestid:generateUUID(),
+		email:email
+	};
 	$.ajax({
-		url:urlPrefix() + "/crm-test/onlineManage/checkEmailUnique",
-		data:{email:email},
+		url:urlPrefix() + "cCheckEmailUnique",
+		data:JSON.stringify( params ),
 		type: 'POST',
+		contentType : 'application/json',
 		success:function(data){
 			console.log(data);
-			if(data.returnCode == "00000"){
-				$("#alert_msg").html("email is available");
+			$("#email_alert_msg").remove();
+			$("#email").after("<span id='email_alert_msg'></span>");
+			if(data.status == "SUCCESS"){
+				
+				$("#email_alert_msg").css('color','green');
+				$("#email_alert_msg").html("email is available");
 			}else{
-				$("#alert_msg").html(data.returnDesc);
+				
+				$("#email_alert_msg").css('color','red');
+				$("#email_alert_msg").html("email is not available");
 			}
         }
 	});
@@ -53,24 +76,50 @@ function register(){
 	var mobile = $("#mobile").val();
 	var identification = $("#identification").val();
 	var email = $("#email").val();
+
+	var params = {
+		messageid:"0x0003",
+	    requestid:generateUUID(),
+		username:username,
+		password:password,
+		confirmPassword:confirmPassword,
+		mobile:mobile,
+		identification:identification,
+		email:email
+	};
+
 	$.ajax({
-		url:urlPrefix() + "crm-test/onlineManage/register",
-		data:{
-			username:username,
-			password:password,
-			confirmPassword:confirmPassword,
-			mobile:mobile,
-			identification:identification,
-			email:email
-		},
+		url:urlPrefix() + "cRegister",
+		data:JSON.stringify( params ),
 		type: 'POST',
+		contentType : 'application/json',
 		success:function(data){
 			console.log(data);
-			if(data.returnCode == "0000"){
-				alert("send email successfully , please check email and complete registeration");
+			if(data.status == "SUCCESS"){
+				//alert("send email successfully , please check email and complete registeration");
+				BootstrapDialog.show({  
+					closable: true, 
+		            message: "send email successfully , please check email and complete registeration",
+		            buttons: [{
+		            	label: 'Close the dialog',
+					    action: function(dialogRef){
+					      dialogRef.close();   //总是能关闭弹出框
+					    }
+		            }]
+		        });
 				window.location.href = "login.html";
 			}else{
-				alert(data.returnDesc);
+				BootstrapDialog.show({  
+					closable: true, 
+					title:"warning",
+		            message: data.status,
+		            buttons: [{
+		            	label: 'Close the dialog',
+					    action: function(dialogRef){
+					      dialogRef.close();   //总是能关闭弹出框
+					    }
+		            }]
+		        });
 			}
         }
 	});

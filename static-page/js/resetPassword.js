@@ -6,17 +6,27 @@ function resetPassword(){
 	var email = getParam("email");
 	
 	var token = getParam("token");
+
+	var params = {
+		messageid:"0x0009",
+	    requestid:generateUUID(),
+		email:email,
+		token:token,
+		newPassword:newPassword,
+		confirmPassword:confirmPassword
+	};
 	
 	$.ajax({
-		url:urlPrefix() + "crm-test/onlineManage/resetPassword",
-		data:{email:email,token:token,newPassword:newPassword,confirmPassword:confirmPassword},
+		url:urlPrefix() + "cResetPw",
+		data:JSON.stringify( params ),
 		type: 'POST',
+		contentType : 'application/json',
 		success:function(data){
 			console.log(data);
-			if(data.returnCode == "00000"){
+			if(data.status == "SUCCESS"){
 				alert("reset password successfully");
 				
-				var username = data.lists[0].username;
+				var username = data.username;
 				
 				autoLogin(username,newPassword)
 				
@@ -29,17 +39,28 @@ function resetPassword(){
 
 
 function autoLogin(username,newPassword){
+	var email = getParam("email");
 	
+	var params = {
+		messageid:"0x0001",
+	    requestid:generateUUID(),
+		email:email,
+		password:newPassword
+	};
+
 	$.ajax({
-		url:urlPrefix() + "/crm-test/onlineManage/login",
-		data:{username:username,password:newPassword},
+		url:urlPrefix() + "cLogin",
+		data:JSON.stringify( params ),
 		type: 'POST',
+		contentType : 'application/json',
 		success:function(data){
 			console.log(data);
-			if(data.returnCode == "0000"){
-				window.location.href = "profile.htm?username=" + data.lists[0].username;
+			if(data.status == "SUCCESS"){
+				sessionStorage.customerId = data.clientid;
+				sessionStorage.username = data.username;
+				window.location.href = "profile.html";
 			}else{
-				alert(data.returnDesc);
+				alert(data.status);
 			}
         }
 	});

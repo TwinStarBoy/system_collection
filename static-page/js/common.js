@@ -180,45 +180,45 @@ function searchMarket(currency){
 
 function getUserInfo(){
   $.post(urlPrefix() + "getUserInfo", {}, function(data){
-            if(data == null){
+    if(data == null){
 
-              var filename=window.location.href;  
-              var start_index = filename.lastIndexOf("/")+1 ; 
-              var end_index = filename.indexOf("?") ;
-              if(end_index == -1){
-                end_index = filename.length ;
-              }
+      var filename=window.location.href;  
+      var start_index = filename.lastIndexOf("/")+1 ; 
+      var end_index = filename.indexOf("?") ;
+      if(end_index == -1){
+        end_index = filename.length ;
+      }
 
-              console.log("start_index:"+start_index+",end_index:"+end_index);
-              filename=filename.substring(start_index,end_index);
+      console.log("start_index:"+start_index+",end_index:"+end_index);
+      filename=filename.substring(start_index,end_index);
 
-              if(filename == "login.html"){
-                return ;
-              }
+      if(filename == "login.html" || filename == '' || filename == "register.html" || filename == "forgetPassword.html"){
+        return ;
+      }
 
-              BootstrapDialog.show({  
-                      closable: true, 
-                      title: "warning",
-                      message: "please login",
-                      buttons: [{
-                        label: 'Close the dialog',
-                        action: function(dialogRef){
-                          dialogRef.close();   //总是能关闭弹出框
-                          window.location.href = "login.html";
-                        }
-                      }]
-                  });
-
-              return ;
+      BootstrapDialog.show({  
+        closable: true, 
+        title: "warning",
+        message: "please login",
+        buttons: [{
+          label: 'Close the dialog',
+          action: function(dialogRef){
+              dialogRef.close();   //总是能关闭弹出框
+              window.location.href = "login.html";
             }
+          }]
+        });
 
-            if(data.id == null || data.id == undefined){
-              return ;
-            }
-            poid = data.id;
-            clientid = data.id;
+      return ;
+    }
 
-          }, 'json');
+    if(data.id == null || data.id == undefined){
+      return ;
+    }
+    poid = data.id;
+    clientid = data.id;
+
+  }, 'json');
 }
 
 function getCookie(c_name){

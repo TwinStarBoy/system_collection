@@ -33,7 +33,7 @@ function createData(){
 			            	  
 			            	  d.messageid = messageid;
 			            	  d.requestid = requestid;
-			            	  d.clientid = getCookie("clientid");
+			            	  d.clientid = clientid;
 			            	  console.log(d);
 						      return JSON.stringify( d );
 						  },
@@ -110,123 +110,128 @@ function createData(){
 }
 
 var apiMethod ;
-var apiDeposit = "crm-test/deposit";
-var apiWithdraw = "crm-test/withdraw";
-            function deposit(object){
-				apiMethod = apiDeposit;
-				openDailog(object);
-					
-	        }
+var apiMessageId = "";
+var apiDeposit = "cDeposit";
+var apiDepositMsgId = "0x0017";
+var apiWithdraw = "cWithdraw";
+var apiWithdrawMsgId = "0x0019";
+function deposit(object){
+	apiMethod = apiDeposit;
+	apiMessageId = apiDepositMsgId;
+	openDailog(object);
 
-            function withdraw(object){
-            	apiMethod = apiWithdraw;
-				openDailog(object);
-            }
+}
 
-            function openDailog(object){
-            		console.log(object);
-					var td = $(object).parent();
-					console.log(td);
-					var tr = td.parent();
-					console.log(tr);
-					var table = $('#example').DataTable();
-					var data = table.row(tr).data(); //??取???械?????
-					console.log(data);
+function withdraw(object){
+	apiMethod = apiWithdraw;
+	apiMessageId = apiWithdrawMsgId;
+	openDailog(object);
+}
 
-					var pnsid = $("<input type='hidden' name='pnsid' value=" + data.pnsid +"></input>");
+function openDailog(object){
+	console.log(object);
+	var td = $(object).parent();
+	console.log(td);
+	var tr = td.parent();
+	console.log(tr);
+	var table = $('#example').DataTable();
+		var data = table.row(tr).data(); //??取???械?????
+		console.log(data);
 
-					var pnsgid = $("<input type='hidden' name='pnsgid' value=" + data.pnsgid +"></input>");
-					
-				    var form = $("#form");
+		var pnsid = $("<input type='hidden' name='pnsid' value=" + data.pnsid +"></input>");
 
-				    form.append(pnsid,pnsgid);
+		var pnsgid = $("<input type='hidden' name='pnsgid' value=" + data.pnsgid +"></input>");
 
-				    $('#myModal').modal({
-				    	backdrop: 'static',//点击遮罩层不关闭模态框
-				        keyboard: true//按esc键，退出模态框
-				    })
-            }
-	        
-			
-			$("#submit").on("click",function(){
+		var form = $("#form");
 
-				var pnsid = $("input[name='pnsid']").val();
+		form.append(pnsid,pnsgid);
 
-				var pnsgid = $("input[name='pnsgid']").val();
+		$('#myModal').modal({
+			backdrop: 'static',//点击遮罩层不关闭模态框
+			keyboard: true//按esc键，退出模态框
+		})
+	}
 
-				var quantity = $("input[name='quantity']").val();
 
-				var clientid = getCustomerId();
-				
-				var username = getUserName();
+	$("#submit").on("click",function(){
 
-				var params = {
-					    pnsid:pnsid,
-						pnsgid:pnsgid,
-						quantity:quantity,
-						clientid:clientid
-					};
+		var pnsid = $("input[name='pnsid']").val();
 
-				$.ajax({
-					url:urlPrefix() + apiMethod + "?username=" + username,
-					xhrFields: {
+		var pnsgid = $("input[name='pnsgid']").val();
 
-						withCredentials: true
+		var quantity = $("input[name='quantity']").val();
 
-					},
-					data:params,
-					type: 'POST',
-					success:function(data){
-						console.log(data);
+		var clientid = getCustomerId();
 
-						BootstrapDialog.show({  
-							closable: true, 
-				            message: data.status,
-				            buttons: [{
-				            	label: 'Close the dialog',
-							    action: function(dialogRef){
-							      dialogRef.close();   //总是能关闭弹出框
-							      if("SUCCESS" == data.status){
-							      	closeModal();
+		var username = getUserName();
 
-									resetTable();
+		var params = {
+			messageid:apiMessageId,
+	    	requestid:generateUUID(),
+			pnsid:pnsid,
+			pnsgid:pnsgid,
+			quantity:quantity,
+			clientid:clientid
+		};
 
-							      }
-							    }
-				            }]
-				        });
+		$.ajax({
+			url:urlPrefix() + apiMethod,
+			xhrFields: {
 
-						
-			        },
-			        error : function(xhr,textStatus,errorThrown){
-			       　　if (xhr.status == 401) {
-			       			BootstrapDialog.show({  
-								closable: true, 
-					            message: "please login",
-					            buttons: [{
-					            	label: 'Close the dialog',
-								    action: function(dialogRef){
-								      dialogRef.close();   //总是能关闭弹出框
-								      window.location.href = "login.html";
-								    }
-					            }]
-					        });
-			         　} else{
-			           　　// 调用外部的error
-			            　 error && error(xhr,textStatus,errorThrown);
-			      　　 }
-			    　　}
+				withCredentials: true
+
+			},
+			data:JSON.stringify( params ),
+			contentType : 'application/json',
+			type: 'POST',
+			success:function(data){
+				console.log(data);
+
+				BootstrapDialog.show({  
+					closable: true, 
+					message: data.status,
+					buttons: [{
+						label: 'Close the dialog',
+						action: function(dialogRef){
+							dialogRef.close();   //总是能关闭弹出框
+							if("SUCCESS" == data.status){
+								closeModal();
+
+								resetTable();
+
+							}
+						}
+					}]
 				});
-
-				
-			});
-
-			function closeModal(){
-				$('#myModal').modal('hide');//????模态??
-				//???毡???
-				$("#myModal :input").not(":button, :submit, :reset, :hidden, :checkbox, :radio").val(""); 
-                $("#myModal :input").removeAttr("checked").remove("selected");  
+			},
+			error : function(xhr,textStatus,errorThrown){
+				　　if (xhr.status == 401) {
+					BootstrapDialog.show({  
+						closable: true, 
+						message: "please login",
+						buttons: [{
+							label: 'Close the dialog',
+							action: function(dialogRef){
+								dialogRef.close();   //总是能关闭弹出框
+								window.location.href = "login.html";
+							}
+						}]
+					});
+			} else{
+					// 调用外部的error
+					error && error(xhr,textStatus,errorThrown);
 			}
+		}
+	});
+
+});
+
+function closeModal(){
+	$('#myModal').modal('hide');//????模态??
+	//???毡???
+	$("#myModal :input").not(":button, :submit, :reset, :hidden, :checkbox, :radio").val(""); 
+	$("#myModal :input").removeAttr("checked").remove("selected");  
+}
 
 
 
@@ -239,77 +244,80 @@ function createNewWallet(){
 
 $("#submitNewWallet").on("click",function(){
 
-				var pnsid = $("#wallet_pnsid").val();
+	var pnsid = $("#wallet_pnsid").val();
 
-				var pnsgid = $("#wallet_pnsgid").val();		
+	var pnsgid = $("#wallet_pnsgid").val();		
 
-				var clientid = getCustomerId();
-				
-				var username = getUserName();
+	var clientid = getCustomerId();
 
-				var params = {
-					    pnsid:pnsid,
-						pnsgid:pnsgid,
-						clientid:clientid
-					};
+	var username = getUserName();
 
-				$.ajax({
-					url:urlPrefix() + "crm-test/saveCacc" + "?username=" + username,
-					xhrFields: {
+	var params = {
+		messageid:"0x0021",
+		requestid:generateUUID(),
+		pnsid:pnsid,
+		pnsgid:pnsgid,
+		clientid:clientid
+	};
 
-						withCredentials: true
+	$.ajax({
+		url:urlPrefix() + "cSaveCacc",
+		xhrFields: {
 
-					},
-					data:params,
-					type: 'POST',
-					success:function(data){
-						console.log(data);
+			withCredentials: true
 
-						BootstrapDialog.show({  
-							closable: true, 
-				            message: data.status,
-				            buttons: [{
-				            	label: 'Close the dialog',
-							    action: function(dialogRef){
+		},
+		data:JSON.stringify( params ),
+		type: 'POST',
+		contentType : 'application/json',
+		success:function(data){
+			console.log(data);
+
+			BootstrapDialog.show({  
+				closable: true, 
+				message: data.status,
+				buttons: [{
+					label: 'Close the dialog',
+					action: function(dialogRef){
 							      dialogRef.close();   //总是能关闭弹出框
 							      if("SUCCESS" == data.status){
 							      	closeWalletModal();
 
-									resetTable();
+							      	resetTable();
 
 							      }
-							    }
-				            }]
-				        });
+							  }
+							}]
+						});
 
-						
-			        },
-			        error : function(xhr,textStatus,errorThrown){
-			       　　if (xhr.status == 401) {
-			       			BootstrapDialog.show({  
-								closable: true, 
-					            message: "please login",
-					            buttons: [{
-					            	label: 'Close the dialog',
-								    action: function(dialogRef){
+
+		},
+		error : function(xhr,textStatus,errorThrown){
+			　　if (xhr.status == 401) {
+				BootstrapDialog.show({  
+					closable: true, 
+					message: "please login",
+					buttons: [{
+						label: 'Close the dialog',
+						action: function(dialogRef){
 								      dialogRef.close();   //总是能关闭弹出框
 								      window.location.href = "login.html";
-								    }
-					            }]
-					        });
-			         　} else{
+								  }
+								}]
+							});
+			　} else{
 			           　　// 调用外部的error
-			            　 error && error(xhr,textStatus,errorThrown);
-			      　　 }
-			    　　}
-				});
-
-				
+			           　 error && error(xhr,textStatus,errorThrown);
+			       　　 }
+			   　　}
 			});
 
-			function closeWalletModal(){
-				$('#walletModal').modal('hide');//????模态??
-				//???毡???
-				$("#walletModal :input").not(":button, :submit, :reset, :hidden, :checkbox, :radio").val(""); 
-                $("#walletModal :input").removeAttr("checked").remove("selected");  
-			}
+
+});
+
+function closeWalletModal(){
+	$('#walletModal').modal('hide');//????模态??
+	//???毡???
+	$("#walletModal :input").not(":button, :submit, :reset, :hidden, :checkbox, :radio").val(""); 
+	$("#walletModal :input").removeAttr("checked").remove("selected");  
+}

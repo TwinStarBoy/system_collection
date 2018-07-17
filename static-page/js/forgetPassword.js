@@ -20,17 +20,22 @@ function changeImage(){
 
 function forgetPassword(){
 	var email = $("#email").val();
-	
+	var params = {
+		messageid:"0x0007",
+	    requestid:generateUUID(),
+		email:email
+	};
 	$.ajax({
-		url:urlPrefix() + "crm-test/onlineManage/forgetPassword",
-		data:{email:email},
+		url:urlPrefix() + "cForgotPw",
+		data:JSON.stringify( params ),
 		type: 'POST',
+		contentType : 'application/json',
 		success:function(data){
 			console.log(data);
-			if(data.returnCode == "0000"){
+			if(data.status == "SUCCESS"){
 				$("#forgetPassword_message").text("send email successfully , please check it than reset your password");
 			}else{
-				alert(data.returnDesc);
+				alert(data.status);
 			}
         }
 	});

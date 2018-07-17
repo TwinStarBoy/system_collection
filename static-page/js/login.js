@@ -3,14 +3,21 @@ function login(){
 
 	var username = $("#username").val();
 	var password = $("#password").val();
+	var params = {
+		messageid:"0x0001",
+	    requestid:generateUUID(),
+		username:username,
+		password:password
+	};
 	$.ajax({
-		url:urlPrefix() + "crm-test/onlineManage/login",
-		data:{username:username,password:password},
+		url:urlPrefix() + "cLogin",
+		data:JSON.stringify( params ),
 		type: 'POST',
+		contentType : 'application/json',
 		success:function(data){
 			$("#loading_image").hide();
 			console.log(data);
-			if(data.returnCode == undefined){
+			if(data.status == undefined){
 				BootstrapDialog.show({  
 					closable: true, 
 		            message: "busy service , please try again after 5 minutes .",
@@ -23,21 +30,24 @@ function login(){
 		    	});
 				return ;
 			}
-			if(data.returnCode == "0000"){
-				sessionStorage.customerId = data.lists[0].id;
-				sessionStorage.username = data.lists[0].username;
+			if(data.status == "SUCCESS"){
+				sessionStorage.customerId = data.clientid;
+				sessionStorage.username = data.username;
 				console.log("customerDetail:"+sessionStorage.customerDetail);
 
-                var cookie = "clientid=" + data.lists[0].id ; 
-                var cookie1 = "username=" + data.lists[0].username ;
+				/*
+				// 使用cookie
+                var cookie = "clientid=" + data.clientid ; 
+                var cookie1 = "username=" + data.username ;
                 document.cookie = cookie ;
                 document.cookie = cookie1 ;
+                */
 
-				window.location.href = "profile.html?username=" + data.lists[0].username;
+				window.location.href = "profile.html";
 			}else{
 				BootstrapDialog.show({  
 					closable: true, 
-		            message: data.returnDesc,
+		            message: data.status,
 		            buttons: [{
 		            	label: 'Close the dialog',
 					    action: function(dialogRef){

@@ -6,23 +6,28 @@ function modifyPassword(){
 	
 	var confirmPassword = $("#confirmPassword").val();
 	
-	var username = getParam("username");
+	var clientid = getCustomerId();
 	
+	var params = {
+		messageid:"0x0011",
+	    requestid:generateUUID(),
+		clientid:clientid,
+		oldpw:oldPassword,
+		newpw:newPassword,
+		repw:confirmPassword
+	};
+
 	$.ajax({
-		url:urlPrefix() + "/crm-test/customerEdit/modifyPassword",
-		data:{
-			username:username,
-			oldPassword:oldPassword,
-			newPassword:newPassword,
-			confirmPassword:confirmPassword
-		},
+		url:urlPrefix() + "cChangePw",
+		data:JSON.stringify( params ),
 		type: 'POST',
+		contentType : 'application/json',
 		success:function(data){
 			console.log(data);
 
 			BootstrapDialog.show({  
 					closable: true, 
-		            message: data.returnDesc,
+		            message: data.status,
 		            buttons: [{
 		            	label: 'Close the dialog',
 					    action: function(dialogRef){

@@ -3,23 +3,29 @@ $(function(){
 });
 
 function scanPersonalInformation(){
-	var username = getParam("username");
 	
+	var clientid = getCustomerId();
+	var params = {
+		messageid:"0x0025",
+	    requestid:generateUUID(),
+		clientid:clientid
+	}
 	$.ajax({
-		url:urlPrefix() + "crm-test/customerEdit/scanPersonalInformation",
-		data:{username:username},
+		url:urlPrefix() + "cScanPersonalInfo",
+		data:JSON.stringify( params ),
 		type: 'POST',
+		contentType : 'application/json',
 		success:function(data){
 			console.log(data);
-			if(data.returnCode == "0000"){
+			if(data.status == "SUCCESS"){
 				
-				$("#mobile").val(data.lists[0].mobile);
-				$("#identification").val(data.lists[0].identification);
-				$("#id").val(data.lists[0].id);
+				$("#mobile").val(data.mobile);
+				$("#identification").val(data.identification);
+				$("#id").val(data.clientid);
 			}else{
 				BootstrapDialog.show({  
 					closable: true, 
-		            message: data.returnDesc,
+		            message: data.status,
 		            buttons: [{
 		            	label: 'Close the dialog',
 					    action: function(dialogRef){
@@ -52,30 +58,32 @@ function scanPersonalInformation(){
 
 
 function modifyPersonalInformation(){
-	var username = getParam("username");
-	var id = $("#id").val();
-	//var username = $("#username").val();
-	//var username = getParam("username");
-	//var password = $("#password").val();
-	//var confirmPassword = $("#confirmPassword").val();
+	
+	var clientid = getCustomerId();
+	
 	var mobile = $("#mobile").val();
+
 	var identification = $("#identification").val();
+
+	var params = {	
+		messageid:"0x0013",
+		requestid:generateUUID(),
+		mobile:mobile,
+		identification:identification,
+		clientid:clientid
+	};
 	
 	$.ajax({
-		url:urlPrefix() + "crm-test/customerEdit/modifyPersonalInformation",
-		data:{
-		    username:username,			
-			mobile:mobile,
-			identification:identification,
-			id:id
-		},
+		url:urlPrefix() + "cModifyDetails",
+		data:JSON.stringify( params ),
 		type: 'POST',
+		contentType : 'application/json',
 		success:function(data){
 			console.log(data);
 
 			BootstrapDialog.show({  
 					closable: true, 
-		            message: data.returnDesc,
+		            message: data.status,
 		            buttons: [{
 		            	label: 'Close the dialog',
 					    action: function(dialogRef){
@@ -83,7 +91,7 @@ function modifyPersonalInformation(){
 					    }
 		            }]
 		        });
-			if(data.returnCode == "0000"){
+			if(data.status == "SUCCESS"){
 				scanPersonalInformation();
 			}
         }
