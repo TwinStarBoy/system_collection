@@ -90,7 +90,7 @@ function changeUrl(e){
 	$(e).removeAttr("href");
 	return false;
 }
-
+/*
 function logout(){
 	$.ajax({
 		url:urlPrefix() + "crm-test/onlineManage/logout",
@@ -101,8 +101,67 @@ function logout(){
        　　window.location.href = "login.html";
     　　}
 	});
+}
+*/
+function logout(){
 
+    $.ajax({
+      url:urlPrefix() + "cLogout",
+      data:{},
+      type: 'POST',
+      contentType : 'application/json',
+      success:function(data){
+        
+        console.log(data);
+        if(data.status == undefined){
+          BootstrapDialog.show({  
+            closable: true, 
+            message: "busy service , please try again after 5 minutes .",
+            buttons: [{
+              label: 'Close the dialog',
+              action: function(dialogRef){
+                dialogRef.close();   //总是能关闭弹出框
+            }
+          }]
+        });
+          return ;
+        }
+        if(data.status == "SUCCESS"){
+          
+            goLoginPage();
 
+        }else{
+            BootstrapDialog.show({  
+              closable: true, 
+              message: data.status,
+              buttons: [{
+                label: 'Close the dialog',
+                action: function(dialogRef){
+                    dialogRef.close();   //总是能关闭弹出框
+              }
+            }]
+          });
+        }
+      },
+      error:function(){
+        BootstrapDialog.show({  
+          closable: true, 
+          message: "internal error",
+          buttons: [{
+            label: 'Close the dialog',
+            action: function(dialogRef){
+                dialogRef.close();   //总是能关闭弹出框
+              }
+            }]
+          });
+        }
+    });
+
+   
+}
+
+function goLoginPage(){
+  window.location.href = "login.html";
 }
 
 function getJson(){
