@@ -13,7 +13,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gateway.bean.User;
 import com.gateway.constant.Constant;
 import com.gateway.util.RequestUtil;
 import com.gateway.util.ResponseUtil;
@@ -41,7 +40,7 @@ public class AccessFilter extends ZuulFilter  {
 
     @Override
     public int filterOrder() {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -73,6 +72,16 @@ public class AccessFilter extends ZuulFilter  {
         //url白名单
         if(Constant.ALLOW_URL.contains(sevletPath)){
         	return null;
+        }
+        //登出方法
+        if (Constant.LOGOUT_URL.equals(sevletPath)){
+        	stringRedisTemplate.delete(sessionId);//删除自置的redis缓存
+        	ctx.getRequest().getSession().invalidate();//删除自带的redis缓存，后期将这两个改成一个
+        	ctx.setSendZuulResponse(false);
+            ctx.setResponseStatusCode(200);
+            ctx.setResponseBody("{\"status\":\"SUCCESS\"}");
+            ctx.getResponse().setContentType("application/json;charset=UTF-8");
+            return null;
         }
         
         String body = stringRedisTemplate.opsForValue().get(sessionId);
@@ -119,27 +128,7 @@ public class AccessFilter extends ZuulFilter  {
         
         
         stringRedisTemplate.opsForValue().set(sessionId, body ,httpSessionTimeOut, TimeUnit.SECONDS);
-        /*
-        String username = request.getParameter("username");
         
-        if(username == null || "".equals(username)){
-        	ctx.setSendZuulResponse(false);
-            ctx.setResponseStatusCode(401);
-            ctx.setResponseBody("illegal param");
-            ctx.getResponse().setContentType("application/json;charset=UTF-8");
-            return null;
-        }
-        
-        User user = JSONObject.parseObject(body, User.class);
-        //参数校验，查看是否是本人
-        if(!username.equals(user.getUsername())){
-        	ctx.setSendZuulResponse(false);
-            ctx.setResponseStatusCode(401);
-            ctx.setResponseBody("illegal param");
-            ctx.getResponse().setContentType("application/json;charset=UTF-8");
-            return null;
-        }
-        */
         return null;
     }
 

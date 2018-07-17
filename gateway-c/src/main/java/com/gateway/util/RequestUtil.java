@@ -20,19 +20,19 @@ public class RequestUtil {
 	public static void addClientId(RequestContext ctx , String customerDetail) throws Exception {
 		try {
 			Map map = JSON.parseObject(customerDetail);
-			String id = (String) map.get("id");
+			String clientidCache = String.valueOf(map.get("clientid")) ;
 			
 			InputStream in = ctx.getRequest().getInputStream();
 			String body = StreamUtils
 					.copyToString(in, Charset.forName("UTF-8"));
 			System.out.println("body:" + body);
 			JSONObject json = JSONObject.parseObject(body);
-			
-			if (!id.equals(json.get("clientid"))){
+			String clientidParam = String.valueOf(json.get("clientid")) ;
+			if (!clientidCache.equals(clientidParam)){
 				throw new Exception("clientid is illegal");
 			}
 			
-			json.put("clientid", id);
+			json.put("clientid", clientidCache);
 //			json.put("poid", id);
 			String newBody = json.toString();
 			System.out.println("newBody:" + newBody);

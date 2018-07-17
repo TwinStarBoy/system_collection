@@ -16,7 +16,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StreamUtils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gateway.bean.ResponseObject;
+import com.gateway.bean.User;
 import com.gateway.constant.Constant;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
@@ -56,11 +56,15 @@ public class AfterLoginFilter extends ZuulFilter {
         
         InputStream stream = ctx.getResponseDataStream();
         String body = null;
-        Object obj = null;
+        String obj = null;
 		try {
 			body = StreamUtils.copyToString(stream, Charset.forName("UTF-8"));
-			ResponseObject ro = JSONObject.parseObject(body, ResponseObject.class);
-			obj = ro.getLists().get(0);
+//			ResponseObject ro = JSONObject.parseObject(body, ResponseObject.class);
+//			obj = ro.getLists().get(0);
+			User user = JSONObject.parseObject(body, User.class);
+			
+			obj = JSONObject.toJSONString(user);
+			
 			System.out.println(obj);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -72,7 +76,8 @@ public class AfterLoginFilter extends ZuulFilter {
             return null;
 		}
         
-        stringRedisTemplate.opsForValue().set(sessionId, obj.toString() ,httpSessionTimeOut, TimeUnit.SECONDS);
+		stringRedisTemplate.opsForValue().set(sessionId, obj ,httpSessionTimeOut, TimeUnit.SECONDS);
+//        stringRedisTemplate.opsForValue().set(sessionId, obj.toString() ,httpSessionTimeOut, TimeUnit.SECONDS);
         
 //        redisTemplate.opsForValue().set(sessionId, obj, 180, TimeUnit.SECONDS);
         ctx.setResponseBody(body);

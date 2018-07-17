@@ -2,16 +2,16 @@ package com.gateway.bean;
 
 public class User {
 	
-	private String id;
+//	private String id;
+	private int clientid;
 	private String username;
 	private String loginname;
 	private String email;
-	
-	public String getId() {
-		return id;
+	public int getClientid() {
+		return clientid;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setClientid(int clientid) {
+		this.clientid = clientid;
 	}
 	public String getUsername() {
 		return username;
@@ -31,4 +31,6 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	
 }
