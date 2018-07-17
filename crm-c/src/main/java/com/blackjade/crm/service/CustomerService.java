@@ -12,15 +12,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.blackjade.crm.apis.customer.CChangePw;
+import com.blackjade.crm.apis.customer.CLoginAns;
 import com.blackjade.crm.apis.customer.CModifyDetails;
 import com.blackjade.crm.apis.customer.CRegister;
 import com.blackjade.crm.apis.customer.CResetPw;
+import com.blackjade.crm.apis.customer.CScanPersonalInfoAns;
 import com.blackjade.crm.apis.customer.CSendVerifyEmail;
 import com.blackjade.crm.apis.customer.CVerifyEmailAns;
 import com.blackjade.crm.apis.customer.CustomerStatus;
 import com.blackjade.crm.apis.customer.CustomerStatus.ChangePwEnum;
+import com.blackjade.crm.apis.customer.CustomerStatus.CheckEmailUniqueEnum;
+import com.blackjade.crm.apis.customer.CustomerStatus.CheckUsernameUniqueEnum;
 import com.blackjade.crm.apis.customer.CustomerStatus.ForgotPwEnum;
-import com.blackjade.crm.apis.customer.CustomerStatus.LoginEnum;
 import com.blackjade.crm.apis.customer.CustomerStatus.ModifyDetailsEnum;
 import com.blackjade.crm.apis.customer.CustomerStatus.RegisterEnum;
 import com.blackjade.crm.apis.customer.CustomerStatus.ResetPwEnum;
@@ -61,22 +64,54 @@ public class CustomerService {
 	@Value("${forgotPwEmailExpire}")
 	private int forgotPwEmailExpire;
 	
-	public LoginEnum checkLogin(String username,String password){
+	public CLoginAns checkUserNameLogin(String username ,String password ,CLoginAns cLoginAns){
 		
 		List<Customer> customers = null;
 		try {
 			customers = customerDao.selectCustomerByUserNameAndPassword(username,password);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return CustomerStatus.LoginEnum.SERVER_BUSY;
+			cLoginAns.setStatus(CustomerStatus.LoginEnum.SERVER_BUSY);
+			return cLoginAns;
 		}
 		
 		if(null == customers || customers.size() == 0){
-			
-			return CustomerStatus.LoginEnum.USERNAME_OR_PASSWORD_WRONG;
+			cLoginAns.setStatus(CustomerStatus.LoginEnum.USERNAME_OR_PASSWORD_WRONG);
+			return cLoginAns;
 		}
 		
-		return CustomerStatus.LoginEnum.SUCCESS;
+		Customer customer = customers.get(0);
+		
+		cLoginAns.setClientid(customer.getId());
+		cLoginAns.setStatus(CustomerStatus.LoginEnum.SUCCESS);
+		
+		return cLoginAns;
+		
+	}
+	
+	public CLoginAns checkEmailLogin(String email ,String password ,CLoginAns cLoginAns){
+		
+		List<Customer> customers = null;
+		try {
+			customers = customerDao.selectCustomerByEmailAndPassword(email,password);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			cLoginAns.setStatus(CustomerStatus.LoginEnum.SERVER_BUSY);
+			return cLoginAns;
+		}
+		
+		if(null == customers || customers.size() == 0){
+			cLoginAns.setStatus(CustomerStatus.LoginEnum.EMAIL_OR_PASSWORD_WRONG);
+			return cLoginAns;
+		}
+		
+		Customer customer = customers.get(0);
+		
+		cLoginAns.setClientid(customer.getId());
+		cLoginAns.setStatus(CustomerStatus.LoginEnum.SUCCESS);
+		
+		return cLoginAns;
+		
 	}
 	
 	
@@ -92,12 +127,12 @@ public class CustomerService {
 		
 		int count = 0 ;
 		
-		count = customerDao.countUsername(customer);
+		count = customerDao.countUsername(customer.getUsername());
 		if(count > 0){
 			return CustomerStatus.RegisterEnum.USERNAME_IS_EXISTS;
 		}
 		
-		count = customerDao.countEmail(customer);
+		count = customerDao.countEmail(customer.getEmail());
 		if(count > 0){
 			return CustomerStatus.RegisterEnum.EMAIL_IS_EXISTS;
 		}
@@ -204,7 +239,7 @@ public class CustomerService {
 		
 		int count = 0;
 		try {
-			count = customerDao.countEmail(customer);
+			count = customerDao.countEmail(customer.getEmail());
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return ForgotPwEnum.SERVER_BUSY;
@@ -396,5 +431,51 @@ public class CustomerService {
 		
 		
 		return CustomerStatus.SendVerifyEmailEnum.SUCCESS;
+	}
+	
+	
+	public CScanPersonalInfoAns scanPersonalInfo (CScanPersonalInfoAns cScanPersonalInfoAns ,int clientid){
+		
+		Customer customer = null;
+		try {
+			customer = customerDao.scanPersonalInformation(clientid);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			cScanPersonalInfoAns.setStatus(CustomerStatus.ScanPersonalInfoEnum.SEVER_BUSY);
+			return  cScanPersonalInfoAns;
+		}
+		
+		if (customer == null){
+			cScanPersonalInfoAns.setStatus(CustomerStatus.ScanPersonalInfoEnum.NOT_FOUND_RECORD);
+			return  cScanPersonalInfoAns;
+		}
+		
+		cScanPersonalInfoAns.setMobile(customer.getMobile());
+		cScanPersonalInfoAns.setIdentification(customer.getIdentification());
+		cScanPersonalInfoAns.setStatus(CustomerStatus.ScanPersonalInfoEnum.SUCCESS);
+		return cScanPersonalInfoAns;
+	}
+	
+	public CheckUsernameUniqueEnum checkUsernameUnique(String username){
+		int count = 0 ;
+		
+		count = customerDao.countUsername(username);
+		if(count == 0){
+			return CustomerStatus.CheckUsernameUniqueEnum.SUCCESS;
+		}
+		
+		return CustomerStatus.CheckUsernameUniqueEnum.USERNAME_ALREADY_EXITS;
+	}
+	
+	public CheckEmailUniqueEnum checkEmailUnique(String username){
+		int count = 0 ;
+		
+		count = customerDao.countEmail(username);
+		
+		if(count == 0){
+			return CustomerStatus.CheckEmailUniqueEnum.SUCCESS;
+		}
+		
+		return CustomerStatus.CheckEmailUniqueEnum.EMAIL_ALREADY_EXITS;
 	}
 }

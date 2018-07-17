@@ -1,7 +1,5 @@
 package com.blackjade.crm.controller;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blackjade.crm.apis.customer.CCheckEmailUnique;
+import com.blackjade.crm.apis.customer.CCheckEmailUniqueAns;
+import com.blackjade.crm.apis.customer.CCheckUsernameUnique;
+import com.blackjade.crm.apis.customer.CCheckUsernameUniqueAns;
 import com.blackjade.crm.apis.customer.CForgotPw;
 import com.blackjade.crm.apis.customer.CForgotPwAns;
 import com.blackjade.crm.apis.customer.CLogin;
@@ -25,7 +27,6 @@ import com.blackjade.crm.apis.customer.CSendVerifyEmailAns;
 import com.blackjade.crm.apis.customer.CVerifyEmail;
 import com.blackjade.crm.apis.customer.CVerifyEmailAns;
 import com.blackjade.crm.apis.customer.CustomerStatus;
-import com.blackjade.crm.model.Customer;
 import com.blackjade.crm.service.CustomerService;
 
 @RestController
@@ -193,6 +194,7 @@ public class CustomerStatusController {
 		CustomerStatus.LoginEnum loginEnum = clogin.reviewData();
 		
 		String username = clogin.getUsername();
+		String email = clogin.getEmail();
 		String password = clogin.getPassword();
 		
 		logger.info("username:"+username);
@@ -205,16 +207,57 @@ public class CustomerStatusController {
 			cLoginAns.setStatus(loginEnum);
 			return cLoginAns;
 		}
-		
-		loginEnum = customerService.checkLogin(username, password);
-		if(CustomerStatus.LoginEnum.SUCCESS != loginEnum){
-			cLoginAns.setStatus(loginEnum);
-			return cLoginAns;
+		if (username == null){
+			cLoginAns = customerService.checkEmailLogin(email, password ,cLoginAns);
+		} else {
+			cLoginAns = customerService.checkUserNameLogin(username, password ,cLoginAns);
 		}
-		
-		cLoginAns.setStatus(CustomerStatus.LoginEnum.SUCCESS);
 		
 		return cLoginAns;
 	}
 	
+	@RequestMapping(value = "/cCheckUsernameUnique" ,method = {RequestMethod.POST})
+	@ResponseBody
+	public CCheckUsernameUniqueAns checkUsernameUnique(@RequestBody CCheckUsernameUnique cCheckUsernameUnique){
+		CustomerStatus.CheckUsernameUniqueEnum checkUsernameUniqueEnum = cCheckUsernameUnique.reviewData();
+		
+		CCheckUsernameUniqueAns cCheckUsernameUniqueAns = new CCheckUsernameUniqueAns();
+		String username = cCheckUsernameUnique.getUsername();
+		cCheckUsernameUniqueAns.setRequestid(cCheckUsernameUnique.getRequestid());
+		cCheckUsernameUniqueAns.setUsername(username);
+		
+		if(CustomerStatus.CheckUsernameUniqueEnum.SUCCESS != checkUsernameUniqueEnum){
+			cCheckUsernameUniqueAns.setStatus(checkUsernameUniqueEnum);
+			return cCheckUsernameUniqueAns;
+		}
+		
+		checkUsernameUniqueEnum = customerService.checkUsernameUnique(username);
+		
+		cCheckUsernameUniqueAns.setStatus(checkUsernameUniqueEnum);
+		return cCheckUsernameUniqueAns;
+		
+	}
+	
+	@RequestMapping(value = "/cCheckEmailUnique" ,method = {RequestMethod.POST})
+	@ResponseBody
+	public CCheckEmailUniqueAns checkEmailUnique(@RequestBody CCheckEmailUnique cCheckEmailUnique){
+		CustomerStatus.CheckEmailUniqueEnum checkEmailUniqueEnum = cCheckEmailUnique.reviewData();
+		
+		CCheckEmailUniqueAns cCheckEmailUniqueAns = new CCheckEmailUniqueAns();
+		String email = cCheckEmailUnique.getEmail();
+		cCheckEmailUniqueAns.setRequestid(cCheckEmailUnique.getRequestid());
+		cCheckEmailUniqueAns.setEmail(email);
+		
+		if(CustomerStatus.CheckEmailUniqueEnum.SUCCESS != checkEmailUniqueEnum){
+			cCheckEmailUniqueAns.setStatus(checkEmailUniqueEnum);
+			return cCheckEmailUniqueAns;
+		}
+		
+		checkEmailUniqueEnum = customerService.checkEmailUnique(email);
+		
+		cCheckEmailUniqueAns.setStatus(checkEmailUniqueEnum);
+		
+		return cCheckEmailUniqueAns;
+		
+	}
 }

@@ -24,6 +24,10 @@ public class CLogin {
 		if (!"0x0001".equals(this.messageid)){
 			return CustomerStatus.LoginEnum.MESSAGE_ID_IS_INVALID;
 		}
+		boolean flag = ( this.username != null || !"".equals(this.username) || this.email != null || !"".equals(this.email) );
+		if (!flag){
+			return CustomerStatus.LoginEnum.USERNAME_OR_EMAIL_IS_EMPTY;
+		}
 		
 		if (this.password == null || "".equals(this.password)){
 			return CustomerStatus.LoginEnum.PASSWORD_IS_EMPTY;

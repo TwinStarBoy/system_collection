@@ -1,18 +1,19 @@
 package com.blackjade.crm.apis.customer;
 
-public class CResetPwAns {
+import com.blackjade.crm.apis.customer.CustomerStatus.CheckUsernameUniqueEnum;
+
+public class CCheckUsernameUniqueAns {
 	private String requestid;
 	private String messageid;
+	
 	private String username;
-	private String email;
-	private String token;
 	
-	private Enum<?> status;
-
-	public CResetPwAns (){
-		this.messageid = "0x000A";
+	private CheckUsernameUniqueEnum status;
+	
+	public CCheckUsernameUniqueAns (){
+		this.messageid = "0x0028";
 	}
-	
+
 	public String getRequestid() {
 		return requestid;
 	}
@@ -29,29 +30,20 @@ public class CResetPwAns {
 		this.messageid = messageid;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public Enum<?> getStatus() {
+	public CheckUsernameUniqueEnum getStatus() {
 		return status;
 	}
 
-	public void setStatus(Enum<?> status) {
+	public void setStatus(CheckUsernameUniqueEnum status) {
 		this.status = status;
 	}
-	
 	
 }

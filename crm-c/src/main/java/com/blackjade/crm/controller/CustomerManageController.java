@@ -14,7 +14,10 @@ import com.blackjade.crm.apis.customer.CChangePw;
 import com.blackjade.crm.apis.customer.CChangePwAns;
 import com.blackjade.crm.apis.customer.CModifyDetails;
 import com.blackjade.crm.apis.customer.CModifyDetailsAns;
+import com.blackjade.crm.apis.customer.CScanPersonalInfo;
+import com.blackjade.crm.apis.customer.CScanPersonalInfoAns;
 import com.blackjade.crm.apis.customer.CustomerStatus;
+import com.blackjade.crm.model.Customer;
 import com.blackjade.crm.service.CustomerService;
 
 @RestController
@@ -28,9 +31,27 @@ public class CustomerManageController {
 	@Autowired
     private StringRedisTemplate stringRedisTemplate;
 	
+	@RequestMapping(value = "/cScanPersonalInfo" ,method = {RequestMethod.POST})
+	@ResponseBody
+	public CScanPersonalInfoAns scanPersonInfo (@RequestBody CScanPersonalInfo cScanPersonalInfo){
+		CustomerStatus.ScanPersonalInfoEnum scanPersonalInfoEnum = cScanPersonalInfo.reviewData();
+		
+		CScanPersonalInfoAns cScanPersonalInfoAns = new CScanPersonalInfoAns();
+		cScanPersonalInfoAns.setRequestid(cScanPersonalInfo.getRequestid());
+		cScanPersonalInfoAns.setClientid(cScanPersonalInfo.getClientid());
+		if (CustomerStatus.ScanPersonalInfoEnum.SUCCESS != scanPersonalInfoEnum){
+			cScanPersonalInfoAns.setStatus(scanPersonalInfoEnum);
+			return cScanPersonalInfoAns;
+		}
+		
+		cScanPersonalInfoAns = customerService.scanPersonalInfo(cScanPersonalInfoAns ,cScanPersonalInfo.getClientid());
+		
+		return cScanPersonalInfoAns;
+	}
+	
 	@RequestMapping(value = "/cModifyDetails" ,method = {RequestMethod.POST})
 	@ResponseBody
-	public CModifyDetailsAns CModifyDetails(@RequestBody CModifyDetails cModifyDetails){
+	public CModifyDetailsAns modifyDetails(@RequestBody CModifyDetails cModifyDetails){
 		CustomerStatus.ModifyDetailsEnum modifyDetailsEnum = cModifyDetails.reviewData();
 		
 		CModifyDetailsAns cModifyDetailsAns = new CModifyDetailsAns();

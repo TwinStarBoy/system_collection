@@ -8,13 +8,15 @@ import com.blackjade.crm.model.Customer;
 
 public interface CustomerDao {
 	
-	public List<Customer> selectCustomerByUserNameAndPassword(@Param(value = "username") String username,@Param(value = "password") String password);
+	public List<Customer> selectCustomerByUserNameAndPassword(@Param(value = "username") String username ,@Param(value = "password") String password);
+	
+	public List<Customer> selectCustomerByEmailAndPassword(@Param(value = "email") String email ,@Param(value = "password") String password);
 	
 	public int insertCustomer(Customer customer);
 	
-	public int countUsername(Customer customer);
+	public int countUsername(@Param(value = "username") String username);
 	
-	public int countEmail(Customer customer);
+	public int countEmail(@Param(value = "email") String email);
 	
 	public int updateCustomerEmailVerify(@Param(value = "email") String email);
 	
@@ -29,4 +31,6 @@ public interface CustomerDao {
 	public int updateCustomerDetails(Customer customer);
 	
 	public Customer selectCustomerById(@Param(value = "id") int id);
+	
+	public Customer scanPersonalInformation(@Param(value = "id") int id);
 }

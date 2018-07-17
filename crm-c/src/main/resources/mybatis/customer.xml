@@ -11,6 +11,15 @@
 		WHERE a.username = #{username} and a.password = #{password}
 	</select>
 	
+	<select id="selectCustomerByEmailAndPassword" resultType="com.blackjade.crm.model.Customer">
+		SELECT
+			a.id "id",
+			a.username "username",
+			a.email "email"
+		FROM crm.customer a
+		WHERE a.email = #{email} and a.password = #{password}
+	</select>
+	
 	
 	<insert id="insertCustomer">
 		INSERT INTO customer 
@@ -78,6 +87,22 @@
 			a.username "username",
 			a.is_email_verify "isEmailVerify",
 			a.email "email"
+		FROM crm.customer a
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="scanPersonalInformation" resultType="com.blackjade.crm.model.Customer">
+	SELECT
+			a.id "id",
+			a.username "username",
+			a.password "password",
+			a.mobile "mobile",
+			a.identification "identification",
+			a.email "email",
+			a.is_email_verify "isEmailVerify",
+			a.is_frozen "isFrozen",
+			a.is_enable "isEnable",
+			a.create_time "createTime"
 		FROM crm.customer a
 		WHERE a.id = #{id}
 	</select>

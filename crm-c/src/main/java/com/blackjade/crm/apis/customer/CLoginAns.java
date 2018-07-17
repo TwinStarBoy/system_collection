@@ -3,6 +3,7 @@ package com.blackjade.crm.apis.customer;
 public class CLoginAns {
 	private String requestid;
 	private String messageid;
+	private int clientid;
 	private String username;
 	private String mobile;
 	private String email;
@@ -70,5 +71,13 @@ public class CLoginAns {
 		this.messageid = messageid;
 	}
 
-	
+	public int getClientid() {
+		return clientid;
+	}
+
+	public void setClientid(int clientid) {
+		this.clientid = clientid;
+	}
+
+
 }
