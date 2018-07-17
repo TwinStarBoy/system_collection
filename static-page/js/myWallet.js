@@ -206,16 +206,16 @@ function openDailog(object){
 			},
 			error : function(xhr,textStatus,errorThrown){
 				　　if (xhr.status == 401) {
-					BootstrapDialog.show({  
-						closable: true, 
-						message: "please login",
-						buttons: [{
-							label: 'Close the dialog',
-							action: function(dialogRef){
-								dialogRef.close();   //总是能关闭弹出框
-								window.location.href = "login.html";
-							}
-						}]
+						BootstrapDialog.show({  
+							closable: true, 
+							message: "please login",
+							buttons: [{
+								label: 'Close the dialog',
+								action: function(dialogRef){
+									dialogRef.close();   //总是能关闭弹出框
+									window.location.href = "login.html";
+								}
+							}]
 					});
 			} else{
 					// 调用外部的error
@@ -293,24 +293,24 @@ $("#submitNewWallet").on("click",function(){
 
 		},
 		error : function(xhr,textStatus,errorThrown){
-			　　if (xhr.status == 401) {
+			if (xhr.status == 401) {
 				BootstrapDialog.show({  
 					closable: true, 
 					message: "please login",
 					buttons: [{
 						label: 'Close the dialog',
 						action: function(dialogRef){
-								      dialogRef.close();   //总是能关闭弹出框
-								      window.location.href = "login.html";
-								  }
-								}]
-							});
-			　} else{
-			           　　// 调用外部的error
-			           　 error && error(xhr,textStatus,errorThrown);
-			       　　 }
-			   　　}
-			});
+							dialogRef.close();   //总是能关闭弹出框
+							window.location.href = "login.html";
+						}
+					}]
+				});
+			} else{
+			    // 调用外部的error
+			    error && error(xhr,textStatus,errorThrown);
+			}
+		}
+	});
 
 
 });

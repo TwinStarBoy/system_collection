@@ -31,7 +31,7 @@ function resetPassword(){
 				autoLogin(username,newPassword)
 				
 			}else{
-				alert(data.returnDesc);
+				alert(data.status);
 			}
         }
 	});
