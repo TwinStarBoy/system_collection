@@ -279,18 +279,16 @@ $("#submitNewWallet").on("click",function(){
 				buttons: [{
 					label: 'Close the dialog',
 					action: function(dialogRef){
-							      dialogRef.close();   //总是能关闭弹出框
-							      if("SUCCESS" == data.status){
-							      	closeWalletModal();
+						dialogRef.close();   //总是能关闭弹出框
+						if("SUCCESS" == data.status){
+							
+							closeWalletModal();
 
-							      	resetTable();
-
-							      }
-							  }
-							}]
-						});
-
-
+							resetTable();
+						}
+					}
+				}]
+			});
 		},
 		error : function(xhr,textStatus,errorThrown){
 			if (xhr.status == 401) {
