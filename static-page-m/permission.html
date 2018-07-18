@@ -28,13 +28,17 @@
 				$('#dg').datagrid('load',{
 					messageid : messageid,
 					requestid : generateUUID(),
+					managerid : getManagerId(),
 					username : username
 				});
 			}	
 
 			$(function(){
 				$.ajax({
-					url : "crm-m/mGetAllUsers",
+					url : urlPrefix() + "mGetAllUsers",
+					data : {
+						managerid : getManagerId(),
+					},
 					type : "post",
 					dataType : "json",
 					success : function(data){
@@ -63,24 +67,32 @@
 				});
 
 				$('#dg').edatagrid({
-					//url: 'crm-m/mGetAllUserPermission',
-					saveUrl: 'crm-m/mAddPermission',
-					updateUrl: 'crm-m/mUpdatePermission',
-					destroyUrl: 'crm-m/mDeletePermission'
+					//url: urlPrefix() + 'mGetAllUserPermission',
+					saveUrl: urlPrefix() + 'mAddPermission',
+					updateUrl: urlPrefix() + 'mUpdatePermission',
+					destroyUrl: urlPrefix() + 'mDeletePermission'
 				});
 				
 				$('#dg').datagrid({
-					url:'crm-m/mGetAllUserPermission',
+					url:urlPrefix() + 'mGetAllUserPermission',
 					method:'post',
 					pageNumber:1,
 					pageSize:10,
 					queryParams:{
 						messageid : messageid,
-						requestid : generateUUID()
+						requestid : generateUUID(),
+						managerid : getManagerId()
 					},
 					loadFilter:function(data){
-						if (data.permissions){
-							return data.permissions;
+						var lists = data.permissions;
+						if (lists){
+							//加入messageid,requestid，managerid，更新记录时用
+							/*for (var item in lists){
+								lists[item].requestid = generateUUID();
+								lists[item].messageid = "0xxxxx1";
+								lists[item].managerid = getManagerId();
+							}*/
+							return lists;
 						} else {
 							return [];
 						}
@@ -96,25 +108,24 @@
 					fit:true,
 					idField:'id',
 					columns:[[
+					    /*
+						{field:'messageid',title:'messageid',width:20,hidden:true},
+						{field:'managerid',title:'managerid',width:20,hidden:true},
+						{field:'requestid',title:'requestid',width:20,hidden:true},
+						*/
 						{field:'id',title:'id',width:20,hidden:true},
-						{field:'userId',title:'用户号',width:50,hidden:true,
-							editor:{
-								type:'combobox',
-								options:{
-									valueField:'managerid',
-									textField:'loginname',
-									data:userId_option,
-									required:true
-								}
-							}
-						},
-						{field:'loginname',title:'用户名',width:50,align:'center',
+						/*
+						{field:'userId',title:'用户号',width:50,hidden:true},
+						*/
+						{field:'userId',title:'用户名',width:50,align:'center',
 							formatter: function(value,row,index){
+								console.log("row:"+row);
 								// 从map中获取值，用于行编辑时，选择下拉框
-								var result = map.get(value);
+								var loginname = row.loginname;
+								var result = map.get(loginname);
 
 								if(result == null || result == ''){
-									return value
+									return loginname
 								}
 								return result;
 							},

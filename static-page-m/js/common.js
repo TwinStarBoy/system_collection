@@ -7,3 +7,22 @@ function generateUUID(){
     });
     return uuid;
 }
+
+function urlPrefix(){
+	return "crm-m/"
+}
+
+function getManagerId(){
+    var managerid = sessionStorage.managerid;
+    return managerid ;
+}
+
+function getLonginName(){
+    var loginname = sessionStorage.loginname;
+    return loginname ;
+}
+
+function clearStorage(){
+	sessionStorage.managerid = null;
+	sessionStorage.loginname = null;
+}

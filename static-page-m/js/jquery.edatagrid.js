@@ -55,6 +55,19 @@
 			onAfterEdit: function(index, row){
 				opts.editIndex = -1;
 				var url = row.isNewRecord ? opts.saveUrl : opts.updateUrl;
+
+				//chaolumen add
+				if (url == urlPrefix() + "mAddPermission"){
+					row.requestid = generateUUID();
+					row.messageid = "0xxxxx1";
+					row.managerid = getManagerId();
+				}
+				if (url == urlPrefix() + "mUpdatePermission"){
+					row.requestid = generateUUID();
+					row.messageid = "0xxxxx2";
+					row.managerid = getManagerId();
+				}
+
 				if (url){
 					$.post(url, row, function(data){
 						if (data.isError){
