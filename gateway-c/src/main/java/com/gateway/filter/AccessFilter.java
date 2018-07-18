@@ -102,12 +102,11 @@ public class AccessFilter extends ZuulFilter  {
         	try {
 				RequestUtil.addClientId(ctx,body);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				log.error(e.getMessage(), e);
 				ctx.setSendZuulResponse(false);
 	            ctx.setResponseStatusCode(401);
-	            String json = JSONObject.toJSON(ResponseUtil.setResult("9999", "please login")).toString();
-	            ctx.setResponseBody(json);
+//	            String json = JSONObject.toJSON(ResponseUtil.setResult("9999", "please login")).toString();
+	            ctx.setResponseBody("{\"status\":\"PLEASE_LOGIN\"}");
 	            ctx.getResponse().setContentType("application/json;charset=UTF-8");
 	            return null;
 			}
