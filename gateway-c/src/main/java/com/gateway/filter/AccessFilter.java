@@ -97,6 +97,31 @@ public class AccessFilter extends ZuulFilter  {
         
         String routeUrl = StringUtil.getRouteStr(sevletPath);
         
+
+        
+//         obj =  redisTemplate.opsForValue().get(sessionId);
+        
+        //登录校验
+        if(null == body ){
+        	ctx.setSendZuulResponse(false);
+            ctx.setResponseStatusCode(401);
+//            String json = JSONObject.toJSON(ResponseUtil.setResult("9999", "please login")).toString();
+//            ctx.setResponseBody(json);
+            ctx.setResponseBody("{\"status\":\"PLEASE_LOGIN\"}");
+            ctx.getResponse().setContentType("application/json;charset=UTF-8");
+            return null;
+        }
+        
+        //检查客户状态
+        boolean flag = RequestUtil.checkCustomerStatus(ctx, body);
+        if(flag){
+        	ctx.setSendZuulResponse(false);
+            ctx.setResponseStatusCode(401);
+            ctx.setResponseBody("{\"status\":\"PLEASE_LOGIN\"}");
+            ctx.getResponse().setContentType("application/json;charset=UTF-8");
+            return null;
+        }
+        
         //需要加clientid的url,这样的url请求参数是json格式
         if(Constant.ADD_CLIENTID_URL.contains(routeUrl)){
         	try {
@@ -111,20 +136,6 @@ public class AccessFilter extends ZuulFilter  {
 	            return null;
 			}
         }
-        
-//         obj =  redisTemplate.opsForValue().get(sessionId);
-        
-        //登录校验
-        if(null == body ){
-        	ctx.setSendZuulResponse(false);
-            ctx.setResponseStatusCode(401);
-            String json = JSONObject.toJSON(ResponseUtil.setResult("9999", "please login")).toString();
-            ctx.setResponseBody(json);
-            ctx.getResponse().setContentType("application/json;charset=UTF-8");
-            return null;
-        }
-        
-        
         
         stringRedisTemplate.opsForValue().set(sessionId, body ,httpSessionTimeOut, TimeUnit.SECONDS);
         
