@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="crm_mgr_test.dao.ManagerDao">
+<!-- 	<select id="getManager" resultType="crm_mgr_test.domain.Manager"> -->
+<!-- 		SELECT* FROM crm.manager a -->
+<!-- 		where a.id = #{id} -->
+<!-- 	</select> -->
+<!-- 	<select id="getUserFromUserPW" resultType="String"> -->
+<!-- 		SELECT loginname FROM -->
+<!-- 		crm.manager a where a.loginname= #{loginname} and a.password= -->
+<!-- 		#{password} -->
+<!-- 	</select> -->
+	<select id="getUserFromUserPW" resultType="crm_mgr_test.domain.Manager">
+		SELECT a.managerid ,loginname , b.permission_code 'permissionCode'
+		FROM crm.manager a left join crm.permission b on a.managerid = b.user_id
+		where a.loginname= #{loginname} and a.password=#{password}
+	</select>
+<!-- 	<select id="getEmailFromEmailPW" resultType="String"> -->
+<!-- 		SELECT email FROM -->
+<!-- 		crm.manager a where a.email= #{email} and a.password= -->
+<!-- 		#{password} -->
+<!-- 	</select> -->
+	<select id="getEmailFromEmailPW" resultType="crm_mgr_test.domain.Manager">
+		SELECT 
+			a.managerid ,a.email ,b.permission_code 'permissionCode'
+		FROM crm.manager a left join crm.permission b on a.managerid = b.user_id 
+		where a.email= #{email} and a.password=#{password}
+	</select>
+<!-- 	<select id="getMidFromMidPW" resultType="Integer"> -->
+<!-- 		SELECT managerid FROM -->
+<!-- 		crm.manager a where a.managerid= #{managerid} and a.password= -->
+<!-- 		#{password} -->
+<!-- 	</select> -->
+	<select id="getMidFromMidPW" resultType="crm_mgr_test.domain.Manager">
+		SELECT a.managerid ,b.permission_code 'permissionCode'
+		FROM crm.manager a left join crm.permission b on a.managerid = b.user_id 
+		where a.managerid= #{managerid} and a.password=#{password}
+	</select>
+	<select id="getManagerFromEmail" resultType="crm_mgr_test.domain.Manager">
+		SELECT * FROM crm.manager a 
+		where a.email= #{email}
+	</select>
+	<update id="updatePassword">
+		UPDATE crm.manager a SET a.password = #{password}
+		where a.managerid=
+		#{managerid}
+	</update>
+	<!-- <insert id=""></insert> <update id=""></update> <delete id=""></delete> 
+		- -->
+		
+	<select id="getAllUsers" resultType="crm_mgr_test.domain.Manager">
+		select a.managerid , a.loginname from crm.manager a
+	</select>	
+</mapper>

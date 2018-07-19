@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="crm_mgr_test.dao.PermissionDao">
+
+	<select id="getAllPermission" resultType="crm_mgr_test.domain.Permission">
+		select 
+			a.id 'id',a.user_id 'userId',a.scan_all_customers 'scanAllCustomers',a.scan_customer_position 'scanCustomerPosition',
+			a.create_customer 'createCustomer',a.update_customer 'updateCustomer',a.limit_customer_trade 'limitCustomerTrade',
+			a.limit_customer_deposit_withdraw 'limitCustomerDepositWithdraw',a.update_customer_orders 'updateCustomerOrders',
+			a.create_order 'createOrder',a.delete_order 'deleteOrder',a.scan_oprator_log 'scanOpratorLog' ,b.loginname 'loginname'
+		from crm.permission a
+		left join crm.manager b on a.user_id = b.managerid 
+	</select>
+	
+	<select id="getPermissionByUserId" parameterType="int" resultType="Long">
+		select 
+			a.PERMISSION_CODE 'permissionCode'
+		from crm.permission a where a.USER_ID = #{user_id}
+	</select>
+	
+	<insert id="addPermission" parameterType="crm_mgr_test.domain.Permission">
+		insert into crm.permission 
+			(USER_ID,PERMISSION_CODE,SCAN_ALL_CUSTOMERS,SCAN_CUSTOMER_POSITION,CREATE_CUSTOMER,UPDATE_CUSTOMER,
+			 LIMIT_CUSTOMER_TRADE,LIMIT_CUSTOMER_DEPOSIT_WITHDRAW,UPDATE_CUSTOMER_ORDERS,CREATE_ORDER,DELETE_ORDER,
+			 SCAN_OPRATOR_LOG)
+		values 
+			(#{userId},#{permissionCode},#{scanAllCustomers},#{scanCustomerPosition},#{createCustomer},#{updateCustomer},
+			 #{limitCustomerTrade},#{limitCustomerDepositWithdraw},#{updateCustomerOrders},#{createOrder},#{deleteOrder},
+			 #{scanOpratorLog})
+	</insert>
+	
+	<update id="updatePermission" parameterType="crm_mgr_test.domain.Permission">
+		update crm.permission a  
+		<trim prefix="set" suffixOverrides=",">
+		     <if test="permissionCode != null">
+		        PERMISSION_CODE = #{permissionCode},  
+		     </if>
+		     <if test="scanAllCustomers != null">
+		        SCAN_ALL_CUSTOMERS = #{scanAllCustomers},  
+		     </if>
+		     <if test="scanCustomerPosition != null">
+		        SCAN_CUSTOMER_POSITION = #{scanCustomerPosition},  
+		     </if>
+		     <if test="createCustomer != null">
+		        CREATE_CUSTOMER = #{createCustomer},  
+		     </if>
+		     <if test="updateCustomer != null">
+		        UPDATE_CUSTOMER = #{updateCustomer},  
+		     </if>
+		     <if test="limitCustomerTrade != null">
+		        LIMIT_CUSTOMER_TRADE = #{limitCustomerTrade},  
+		     </if>
+		     <if test="limitCustomerDepositWithdraw != null">
+		        LIMIT_CUSTOMER_DEPOSIT_WITHDRAW = #{limitCustomerDepositWithdraw},  
+		     </if>
+		     <if test="updateCustomerOrders != null">
+		        UPDATE_CUSTOMER_ORDERS = #{updateCustomerOrders},  
+		     </if>
+		     <if test="createOrder != null">
+		        CREATE_ORDER = #{createOrder},  
+		     </if>
+		     <if test="deleteOrder != null">
+		        DELETE_ORDER = #{deleteOrder},  
+		     </if>
+		     <if test="scanOpratorLog != null">
+		        SCAN_OPRATOR_LOG = #{scanOpratorLog},  
+		     </if>
+		</trim>
+		where a.user_id = #{userId}
+	</update>
+</mapper>
