@@ -185,7 +185,7 @@ function cancel(object){
 				var pcancelParam = {
 					messageid : "701D",
 					requestid : generateUUID(),
-					clientid : getCookie("clientid"),
+					clientid : getCustomerId(),
 					oid : 1,//之后修改成正确值
 					cid : 1,//之后修改成正确值
 					side : side_global,
