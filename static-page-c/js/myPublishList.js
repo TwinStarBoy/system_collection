@@ -16,6 +16,8 @@ function refeshTable(type){
 }
 
 function resetTable(){
+	pnsid_global = pnsid;
+	pnsgid_global = pnsgid;
 	$('#example').DataTable().ajax.reload();
 }
 
