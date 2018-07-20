@@ -112,9 +112,9 @@ public class AccessFilter extends ZuulFilter  {
             return null;
         }
         
-        //检查客户状态
+        //检查客户状态 true:已登录，false:未登录
         boolean flag = RequestUtil.checkCustomerStatus(ctx, body);
-        if(flag){
+        if(!flag){
         	ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(401);
             ctx.setResponseBody("{\"status\":\"PLEASE_LOGIN\"}");
