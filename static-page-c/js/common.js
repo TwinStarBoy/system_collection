@@ -86,7 +86,7 @@ function urlSubscriberPrefix(){
 
 function changeUrl(e){
 	var href = $(e).attr("href");
-	window.location.href = href + "?username=" + getParam("username");
+	window.location.href = href;
 	$(e).removeAttr("href");
 	return false;
 }

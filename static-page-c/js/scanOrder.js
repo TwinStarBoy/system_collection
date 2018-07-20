@@ -1,6 +1,6 @@
 var pnsid = 1;
 var pnsgid = 8;
-var clientid = 470210;
+var clientid = getCustomerId();
 var messageid = "6025";
 var pnsoid = "80434130-48b7-4698-ada2-e50448ab056f";
 
@@ -35,6 +35,7 @@ function createData(){
 			            	  d.pnsgid = pnsgid;
 			            	  d.clientid = clientid;
 			            	  d.messageid = messageid;
+			            	  d.requestid = generateUUID();
 			            	  //d.pnsoid = pnsoid;
 			            	  d.pnsoid = getParam("pnsoid");
 			            	  console.log(d);

@@ -44,7 +44,7 @@ function createData(){
 			            	  d.cid = getCustomerId();
 			            	  d.messageid = '602B';
 			            	  d.requestid = generateUUID();
-			            	  d.clientid = getCookie("clientid");
+			            	  d.clientid = getCustomerId();
 			            	  console.log(d);
 						      return JSON.stringify( d );
 						  },
@@ -458,9 +458,9 @@ var faceName ;
 				var params = {
 					    messageid : "701E" ,
 					    requestid : generateUUID() ,
-					    clientid : getCookie("clientid") ,
+					    clientid : getCustomerId() ,
 					    oid : oid ,
-					    cid : getCookie("clientid"),//????为什么
+					    cid : getCustomerId(),//????为什么
 					    side : side ,
 					    pnsoid : pnsoid ,
 					    poid : poid,

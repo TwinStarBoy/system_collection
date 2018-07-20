@@ -144,7 +144,7 @@ function scanOrder(object){
 					var data = table.row(tr).data(); //??取???械?????
 					console.log(data);
 
-					window.open("scanOrder.html?username="+getParam("username")+"&pnsoid="+data.pnsoid);
+					window.open("scanOrder.html?pnsoid="+data.pnsoid);
 }
 
 function cancelConfirm(object){

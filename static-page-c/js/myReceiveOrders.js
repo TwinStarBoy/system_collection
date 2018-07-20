@@ -41,6 +41,7 @@ function createData(){
 			            	  d.pnsid = pnsid;
 			            	  d.pnsgid = pnsgid;
 			            	  d.messageid = messageid;
+			            	  d.requestid = generateUUID();
 			            	  console.log(d);
 						      return JSON.stringify( d );
 						  },

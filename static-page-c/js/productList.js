@@ -39,7 +39,7 @@ function createData(){
 			            	  d.side = "S";
 			            	  d.pnsid = pnsid;
 			            	  d.pnsgid = pnsgid;
-			            	  d.clientid = getCookie("clientid");
+			            	  d.clientid = getCustomerId();
 			            	  console.log(d);
 						      return JSON.stringify( d );
 						  },
@@ -373,7 +373,7 @@ var faceName ;
 							pnsgid:data.pnsgid,
 							pnsid:data.pnsid,
 							side:data.side,
-							clientid:getCookie("clientid")
+							clientid:getCustomerId()
 						};
 						searchOneOrder(searchParams);//²éÑ¯¶©µ¥×´Ì¬
 			        }
