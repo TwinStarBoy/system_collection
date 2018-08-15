@@ -6,7 +6,7 @@ function autoLogin(){
 	var username = getParam("username");
 	var token = getParam("token");
 	$.ajax({
-		url:urlPrefix() + "crm-test/onlineManage/emailAutoLogin",
+		url:urlPrefix() + "cEmailAutoLogin",
 		data:{username:username,token:token},
 		type: 'POST',
 		success:function(data){
