@@ -23,6 +23,7 @@ public class Constant {
 		ALLOW_URL.add("/crm/cCheckEmailUnique");
 		ALLOW_URL.add("/crm/cCheckUsernameUnique");
 		ALLOW_URL.add("/crm/cVerifyCode");
+		ALLOW_URL.add("/crm/cForgotPw");
 		
 		ADD_CLIENTID_URL.add("publisher");
 		ADD_CLIENTID_URL.add("subscriber");
