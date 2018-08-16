@@ -46,7 +46,8 @@ public class AfterLoginFilter extends ZuulFilter {
         String sevletPath = request.getServletPath();
         log.info("sevletPaht:" + sevletPath);
         
-        if(!Constant.LOGIN_SERVLET_PATH.equals(sevletPath)){
+        // 如果既不是login,也不是emailAutoLogin则不做filter
+        if(!Constant.LOGIN_SERVLET_PATH.equals(sevletPath) && !Constant.AUTO_LOGIN_SERVLET_PATH.equals(sevletPath)){
         	return null;
         }
         
