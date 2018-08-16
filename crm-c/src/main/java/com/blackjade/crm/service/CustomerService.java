@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.blackjade.crm.apis.customer.CChangePw;
+import com.blackjade.crm.apis.customer.CEmailAutoLoginAns;
 import com.blackjade.crm.apis.customer.CLoginAns;
 import com.blackjade.crm.apis.customer.CModifyDetails;
 import com.blackjade.crm.apis.customer.CRegister;
@@ -291,6 +292,13 @@ public class CustomerService {
 			return CustomerStatus.ResetPwEnum.RESET_PASSWORD_FAILED;
 		}
 		
+		String email = cResetPw.getEmail();
+		
+		String key = getResetPwEmailTokenKey(email);
+		
+		// 删除token
+		stringRedisTemplate.delete(key);
+		
 		return CustomerStatus.ResetPwEnum.SUCCESS;
 		
 	}
@@ -477,5 +485,42 @@ public class CustomerService {
 		}
 		
 		return CustomerStatus.CheckEmailUniqueEnum.EMAIL_ALREADY_EXITS;
+	}
+	
+	public CEmailAutoLoginAns checkEmailAutoLogin(String username , String token ,CEmailAutoLoginAns cEmailAutoLoginAns){
+		String key = username + emailVerifyKeySuffix;
+		
+		String tokenCache = stringRedisTemplate.opsForValue().get(key);
+		
+		if(!token.equals(tokenCache)){
+			cEmailAutoLoginAns.setStatus(CustomerStatus.EmailAutoLoginEnum.TOKEN_IS_INVALID);
+			return cEmailAutoLoginAns;
+		}
+		
+		
+		Customer customer = customerDao.selectCustomerByUserName(username);
+		
+		int row;
+		try {
+			row = customerDao.updateCustomerEmailVerify(customer.getEmail());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			cEmailAutoLoginAns.setStatus(CustomerStatus.EmailAutoLoginEnum.SERVER_BUSY);
+			return cEmailAutoLoginAns;
+		}
+		
+		if (row == 0){
+			logger.error(customer.getUsername() + "update verify email failed !");
+			cEmailAutoLoginAns.setStatus(CustomerStatus.EmailAutoLoginEnum.DATABASE_UPDATE_FAILED);
+			return cEmailAutoLoginAns;
+		}
+		
+		// 删除token
+		stringRedisTemplate.delete(key);
+		
+		cEmailAutoLoginAns.setClientid(customer.getId());
+		cEmailAutoLoginAns.setStatus(CustomerStatus.EmailAutoLoginEnum.SUCCESS);
+		
+		return cEmailAutoLoginAns;
 	}
 }

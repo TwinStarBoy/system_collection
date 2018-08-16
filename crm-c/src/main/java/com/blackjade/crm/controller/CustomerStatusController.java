@@ -14,6 +14,8 @@ import com.blackjade.crm.apis.customer.CCheckEmailUnique;
 import com.blackjade.crm.apis.customer.CCheckEmailUniqueAns;
 import com.blackjade.crm.apis.customer.CCheckUsernameUnique;
 import com.blackjade.crm.apis.customer.CCheckUsernameUniqueAns;
+import com.blackjade.crm.apis.customer.CEmailAutoLogin;
+import com.blackjade.crm.apis.customer.CEmailAutoLoginAns;
 import com.blackjade.crm.apis.customer.CForgotPw;
 import com.blackjade.crm.apis.customer.CForgotPwAns;
 import com.blackjade.crm.apis.customer.CLogin;
@@ -27,6 +29,7 @@ import com.blackjade.crm.apis.customer.CSendVerifyEmailAns;
 import com.blackjade.crm.apis.customer.CVerifyEmail;
 import com.blackjade.crm.apis.customer.CVerifyEmailAns;
 import com.blackjade.crm.apis.customer.CustomerStatus;
+import com.blackjade.crm.apis.customer.CustomerStatus.EmailAutoLoginEnum;
 import com.blackjade.crm.service.CustomerService;
 
 @RestController
@@ -111,6 +114,7 @@ public class CustomerStatusController {
 			cResetPwAns.setStatus(resetPwEnum);
 			return cResetPwAns;
 		}
+		
 		
 		cResetPwAns.setStatus(CustomerStatus.ResetPwEnum.SUCCESS);
 		return cResetPwAns;
@@ -259,5 +263,28 @@ public class CustomerStatusController {
 		
 		return cCheckEmailUniqueAns;
 		
+	}
+	
+	@RequestMapping(value = "/cEmailAutoLogin" ,method = RequestMethod.POST)
+	@ResponseBody
+	public CEmailAutoLoginAns emailAutoLogin(@RequestBody CEmailAutoLogin cEmailAutoLogin){
+		EmailAutoLoginEnum emailAutoLoginEnum = cEmailAutoLogin.reviewData();
+		
+		String username = cEmailAutoLogin.getUsername();
+		String token = cEmailAutoLogin.getToken();
+		CEmailAutoLoginAns cEmailAutoLoginAns = new CEmailAutoLoginAns();
+		cEmailAutoLoginAns.setRequestid(cEmailAutoLogin.getRequestid());
+		cEmailAutoLoginAns.setUsername(username);
+		cEmailAutoLoginAns.setToken(token);
+		
+		if (CustomerStatus.EmailAutoLoginEnum.SUCCESS != emailAutoLoginEnum){
+			cEmailAutoLoginAns.setStatus(emailAutoLoginEnum);
+			return cEmailAutoLoginAns;
+		}
+		
+		
+		cEmailAutoLoginAns = customerService.checkEmailAutoLogin(username, token, cEmailAutoLoginAns);
+		
+		return cEmailAutoLoginAns;
 	}
 }
