@@ -13,6 +13,8 @@ public class CWithdraw {
 	private int pnsgid;
 	private int clientid;
 	private int quantity;
+	private String amoumt;//为整数时 quantity 等于 amount
+	private String receiveAddress;
 
 	public WithdrawEnum reviewData(){
 		
@@ -36,9 +38,13 @@ public class CWithdraw {
 			return WalletStatus.WithdrawEnum.PNSGID_MSUT_MORE_THAN_ZERO;
 		}
 		
-		if (this.quantity <= 0){
-			return WalletStatus.WithdrawEnum.QUANTITY_MUST_BE_POSITIVE_NUMBER;
+		if (this.receiveAddress == null || "".equals(this.receiveAddress)){
+			return WalletStatus.WithdrawEnum.RECEIVE_ADDRESS_IS_INVALID;
 		}
+		
+//		if (this.quantity <= 0){
+//			return WalletStatus.WithdrawEnum.QUANTITY_MUST_BE_POSITIVE_NUMBER;
+//		}
 		
 		return WalletStatus.WithdrawEnum.SUCCESS;
 	}
@@ -91,6 +97,22 @@ public class CWithdraw {
 
 	public void setRequestid(UUID requestid) {
 		this.requestid = requestid;
+	}
+
+	public String getReceiveAddress() {
+		return receiveAddress;
+	}
+
+	public void setReceiveAddress(String receiveAddress) {
+		this.receiveAddress = receiveAddress;
+	}
+
+	public String getAmoumt() {
+		return amoumt;
+	}
+
+	public void setAmoumt(String amoumt) {
+		this.amoumt = amoumt;
 	}
 
 }

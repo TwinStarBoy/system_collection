@@ -86,6 +86,5 @@ public class CDeposit{
 	public void setRequestid(UUID requestid) {
 		this.requestid = requestid;
 	}
-	
-	
+
 }

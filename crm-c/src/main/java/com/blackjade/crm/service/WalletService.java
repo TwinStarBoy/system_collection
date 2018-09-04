@@ -70,4 +70,9 @@ public class WalletService {
 		return walletDao.saveCacc(wallet);
 	}
 	
+	public String getBTCReceiveAddress(int customerId){
+		String receiveAddress = walletDao.getBTCReceiveAddress(customerId);
+		return receiveAddress;
+	}
+	
 }

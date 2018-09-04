@@ -2,23 +2,19 @@ package com.blackjade.crm.apis.wallet;
 
 import java.util.UUID;
 
-
-public class CWithdrawAns {
-	
+public class CGetReceiveAddressAns {
 	private String messageid;
 	private UUID requestid;
 	private int pnsid;
 	private int pnsgid;
 	private int clientId;
 	private int quantity;
-	private String amoumt;//为整数时 quantity 等于 amount
+	private String receiveAddress;
 	
 	private Enum<?> status;
-	
-	private String receiveAddress;
 
-	public CWithdrawAns (){
-		this.messageid = "0x0020";
+	public CGetReceiveAddressAns (){
+		this.messageid = "0x0034";
 	}
 	
 	public String getMessageid() {
@@ -84,13 +80,5 @@ public class CWithdrawAns {
 	public void setReceiveAddress(String receiveAddress) {
 		this.receiveAddress = receiveAddress;
 	}
-
-	public String getAmoumt() {
-		return amoumt;
-	}
-
-	public void setAmoumt(String amoumt) {
-		this.amoumt = amoumt;
-	}
-
+	
 }
