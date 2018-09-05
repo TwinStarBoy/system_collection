@@ -145,6 +145,7 @@
 		<script src="./js/json2.js"></script>
 		<script src="./js/common.js"></script>
 		<script type="text/javascript">
+		    var pollUrl = 'http://' + '192.168.1.8' + ':8110/poll';
 		    var faceName = getParam("faceName");
 		   
 		    var url_base;
@@ -158,7 +159,7 @@
 				//sub_url = 'http://' + '192.168.236.129' + ':8100/poll'
 // 				sub_url = 'http://' + 'localhost' + ':8110/poll'
 // 				sub_url = 'http://' + '192.168.1.7' + ':8110/poll'
-				sub_url = 'http://' + '192.168.1.8' + ':8110/poll'
+				sub_url = pollUrl;
 			}
 			
 // 			$(function(){
