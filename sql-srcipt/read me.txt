@@ -1,3 +1,0 @@
-init.sql 先不使用，因为已经用过了；
-
-此次只使用use_crm.sql,use_pns两个sql脚本；
