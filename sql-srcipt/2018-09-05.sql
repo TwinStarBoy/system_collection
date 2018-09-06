@@ -1,17 +1,15 @@
 use crm;
 
-
-
-drop table if exists BALANCE_LOG;
+drop table if exists balance_log;
 
 /*==============================================================*/
-/* Table: BALANCE_LOG                                           */
+/* Table: balance_log                                           */
 /*==============================================================*/
-create table BALANCE_LOG
+create table balance_log
 (
    ID                   bigint not null auto_increment comment '自增id',
    ORDER_ID             varchar(36) comment '订单id',
-   OPERATE_TYPE         int(1) not null comment '操作类型：1:出金 withdraw_deposit  ; 2:入金 deposit',
+   OPERATE_TYPE         int(1) not null comment '操作类型：1:出金 withdraw  ; 2:入金 deposit',
    CUSTOMER_ID          int comment '客户id，与customer表关联',
    TRANSACTION_ID       varchar(64) comment 'transactionId',
    RECEIVE_ADDRESS      varchar(40) comment '接收到比特币的address',
@@ -36,18 +34,16 @@ create table BALANCE_LOG
    unique key AK_Key_2 (ORDER_ID)
 );
 
-alter table BALANCE_LOG comment '客户出金/入金记录日志表';
+alter table balance_log comment '客户出金/入金记录日志表';
 
 
 
-
-
-drop table if exists CUSTOMER_ADDRESS_MAP;
+drop table if exists customer_address_map;
 
 /*==============================================================*/
-/* Table: CUSTOMER_ADDRESS_MAP                                  */
+/* Table: customer_address_map                                  */
 /*==============================================================*/
-create table CUSTOMER_ADDRESS_MAP
+create table customer_address_map
 (
    ID                   int not null auto_increment comment '主键ID',
    CUSTOMER_ID          int comment '客户ID',
@@ -56,7 +52,4 @@ create table CUSTOMER_ADDRESS_MAP
    unique key AK_Key_2 (CUSTOMER_ID, RECEIVE_ADDRESS)
 );
 
-alter table CUSTOMER_ADDRESS_MAP comment '比特币用户-收款地址表';
-
-
-
+alter table customer_address_map comment '比特币用户-收款地址表';
