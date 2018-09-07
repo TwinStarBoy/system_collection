@@ -264,6 +264,7 @@ public class BitcoinModel {
         protected void progress(double pct, int blocksLeft, Date date) {
             super.progress(pct, blocksLeft, date);
             Platform.runLater(() -> syncProgress.set(pct / 100.0));
+
         }
 
         @Override

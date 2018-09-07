@@ -116,7 +116,7 @@ public class BitcoinWalletApplication extends Application {
 				// Don't make the user wait for confirmations for now, as the intention is they're sending it
 				// their own money!
 				bitcoin.wallet().allowSpendingUnconfirmedTransactions();
-				Platform.runLater(controller::onBitcoinSetup);
+//				Platform.runLater(controller::onBitcoinSetup);
 			}
 		};
 		// Now configure and realStart the appkit. This will take a second or two - we could show a temporary splash screen
@@ -128,9 +128,10 @@ public class BitcoinWalletApplication extends Application {
 //            bitcoin.useTor();
 			// bitcoin.setDiscovery(new HttpDiscovery(params, URI.create("http://localhost:8080/peers"), ECKey.fromPublicOnly(BaseEncoding.base16().decode("02cba68cfd0679d10b186288b75a59f9132b1b3e222f6332717cb8c4eb2040f940".toUpperCase()))));
 		}
-		bitcoin.setDownloadListener(controller.progressBarUpdater())
-				.setBlockingStartup(false)
-				.setUserAgent(APP_NAME, "1.0");
+//		bitcoin.setDownloadListener(controller.progressBarUpdater())
+//				.setBlockingStartup(false)
+//				.setUserAgent(APP_NAME, "1.0");
+		bitcoin.setBlockingStartup(false).setUserAgent(APP_NAME, "1.0");
 		if (seed != null)
 			bitcoin.restoreWalletFromSeed(seed);
 	}
