@@ -1,4 +1,4 @@
-var chatDNS = "http://localhost:8883";
+var chatDNS = getChatUrl();
 
 $(function(){
 				$("#navigation").load('./commonPage/navigation.html');
@@ -295,4 +295,12 @@ function getCookie(c_name){
       } 
     }
   return ""
+}
+
+function getChatUrl(){
+
+  var ip = window.location.host;
+  var port = "82";
+  var chatUrl = ip + port ;
+  return chatUrl;
 }
