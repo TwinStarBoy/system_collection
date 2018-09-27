@@ -299,8 +299,9 @@ function getCookie(c_name){
 
 function getChatUrl(){
 
-  var ip = window.location.host;
+  var host = window.location.host;
+  var ip = host.split(":")[0];
   var port = "82";
-  var chatUrl = ip + port ;
+  var chatUrl = "http://" + ip + ":" + port ;
   return chatUrl;
 }
