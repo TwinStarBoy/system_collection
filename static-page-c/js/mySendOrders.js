@@ -325,13 +325,16 @@ var faceName ;
 	        	//alert("pay confirm success ...");
 	        	
 	        	var paidParam = {
-                            	clientid:strData.cid,
+	        					messageid:"7005",
+	        					requestid:generateUUID(),
+                            	clientid:getCustomerId(),
                             	oid:strData.oid,
+                            	cid:strData.cid,
                             	side:strData.side,
                             	pnsoid:strData.pnsoid,
                             	poid:strData.poid,
-                            	pnsid:strData.pnsid,
-                            	pnsgid:strData.pnsgid,
+                            	pnsid:pnsid_global,
+                            	pnsgid:pnsgid_global,
                             	price:strData.price,
                             	quant:strData.quant
                             };
@@ -346,14 +349,14 @@ var faceName ;
 						var status = data.status;
 
 						if("SUCCESS" == status){
-							var time = new Date(strData.ord.timestamp).format("yyyy-MM-dd hh:mm:ss");
+							//var time = new Date(strData.ord.timestamp).format("yyyy-MM-dd hh:mm:ss");
 							var elementId = "#" + data.oid;
 							var orderId = $(elementId);	
 							orderId.empty();
 							var orderStatus = "<div id='" + data.oid + "'>"
 							orderStatus += "<div>this order has paid confirmed , please wait saler comfrim , thank you :</div>";
                             orderStatus += "<div>order id:" + data.oid + "</div>"
-                            orderStatus += "<div>time:" + time +"</div>";
+                            //orderStatus += "<div>time:" + time +"</div>";
                             orderStatus += "<div>price:" + data.price +"</div>";
                             orderStatus += "<div>quant:" + data.quant +"</div>";
                             //orderStatus += "<div>status:" + data.status +"</div>";
