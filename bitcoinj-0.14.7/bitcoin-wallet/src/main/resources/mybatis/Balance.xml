@@ -5,11 +5,11 @@
     <insert id="saveRecord" parameterType="org.myutils.model.BalanceLog">
         INSERT INTO crm.balance_log
         (ORDER_ID,OPERATE_TYPE,CUSTOMER_ID,RECEIVE_ADDRESS,RECEIVE_AMOUNT,CHANGE_ADDRESS,
-        SEND_ADDRESS,FEE,CONFIRMATIONS,PLATFORM_FEE,CREATE_TIME,NOTIFY_STATUS,TRADE_STATUS,PNSID,PNSGID)
+        SEND_ADDRESS,FEE,CONFIRMATIONS,PLATFORM_FEE,CREATE_TIME,NOTIFY_STATUS,TRADE_STATUS,PNSID,PNSGID,ACTUAL_AMOUNT)
         VALUES
         (#{orderId},#{operateType},#{customerId},#{receiveAddress},#{receiveAmount},
         #{changeAddress},#{sendAddress},#{fee},#{confirmations},#{platformFee},#{createTime},
-        #{notifyStatus},#{tradeStatus},#{pnsid},#{pnsgid})
+        #{notifyStatus},#{tradeStatus},#{pnsid},#{pnsgid},#{actualAmount})
     </insert>
 
 
@@ -22,6 +22,15 @@
         #{sendAddress},#{fee},#{confirmations},#{platformFee},#{createTime},#{notifyStatus},#{tradeStatus},
         #{pnsid},#{pnsgid})
     </insert>
+
+    <update id="updateDepositRecord" parameterType="org.myutils.model.BalanceLog">
+        UPDATE crm.balance_log
+        <trim prefix="set" suffixOverrides=",">
+            <if test="platformFee!=null">PLATFORM_FEE = #{platformFee},</if>
+            <if test="actualAmount!=null">ACTUAL_AMOUNT = #{actualAmount},</if>
+        </trim>
+        WHERE TRANSACTION_ID = #{transactionId}
+    </update>
 
     <select id="getCustomerIdByReceiveAddress" resultType="int">
         SELECT CUSTOMER_ID FROM crm.customer_address_map WHERE RECEIVE_ADDRESS = #{receiveAddress}
@@ -52,7 +61,8 @@
             CREATE_TIME 'createTime',
             NOTIFY_STATUS 'notifyStatus',
             PNSID 'pnsid',
-            PNSGID 'pnsgid'
+            PNSGID 'pnsgid',
+            ACTUAL_AMOUNT 'actualAmount'
         FROM crm.balance_log
         WHERE TRANSACTION_ID = #{transactionId}
     </select>
