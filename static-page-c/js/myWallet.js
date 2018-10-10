@@ -225,15 +225,19 @@ function openDailog(object){
 
 		var username = getUserName();
 
+		var fees = $("input[name='fees']").val();
+
 		var params = {
 			messageid:apiMessageId,
 	    	requestid:generateUUID(),
+	    	clientid:clientid,
+	    	oid:generateUUID(),
 			pnsid:pnsid,
 			pnsgid:pnsgid,
-			quantity:quantity,
-			clientid:clientid,
-			amoumt:amoumt,
-			receiveAddress:receiveAddress
+			toaddress:receiveAddress,
+			quant:quantity,
+			fees:fees,
+			toquant:quantity-fees,
 		};
 
 		$.ajax({
