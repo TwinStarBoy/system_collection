@@ -113,8 +113,8 @@ var apiMethod ;
 var apiMessageId = "";
 var apiDeposit = "cDeposit";
 var apiDepositMsgId = "0x0017";
-var apiWithdraw = "cWithdraw";
-var apiWithdrawMsgId = "0x0019";
+var apiWithdraw = "cWithdrawReq";
+var apiWithdrawMsgId = "4005";
 function deposit(object){
 	apiMethod = apiDeposit;
 	apiMessageId = apiDepositMsgId;
