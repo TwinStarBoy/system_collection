@@ -6,10 +6,7 @@ import com.blackjade.wallet.apis.ComStatus;
 import com.blackjade.wallet.apis.initiativeReq.dword.*;
 import com.blackjade.wallet.controller.SendBtcThread;
 import com.blackjade.wallet.service.BalanceLogService;
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.AddressFormatException;
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.NetworkParameters;
+import org.bitcoinj.core.*;
 import org.myutils.apis.CCheckEmailUnique;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -214,4 +211,13 @@ public class WebController {
         return address.toString();
     }
 
+    @RequestMapping(value = "/getTransactionByTxid")
+    public String getTransactionByTxid(String txid){
+        Sha256Hash sha256Hash = Sha256Hash.wrap(txid);
+        Transaction transaction = BitcoinWalletApplication.bitcoin.wallet().getTransaction(sha256Hash);
+        if (transaction == null){
+            return "no result";
+        }
+        return "this txid is owner me";
+    }
 }
