@@ -305,3 +305,18 @@ function getChatUrl(){
   var chatUrl = "http://" + ip + ":" + port ;
   return chatUrl;
 }
+
+function getCurrencyType(row){
+  var pnsid = row.pnsid;
+  var pnsgid = row.pnsgid;
+  if (pnsid == 1 && pnsgid == 8) {
+    return "BTC";
+  }
+  if (pnsid == 2 && pnsgid == 8) {
+    return "ETH";
+  }
+  if (pnsid == 3 && pnsgid == 8) {
+    return "USD";
+  }
+  return "-";
+}

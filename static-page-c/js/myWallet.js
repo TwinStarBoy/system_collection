@@ -49,8 +49,13 @@ function createData(){
 			        },
                     */
 			        "columns": [
-			            { "data": "pnsgid" , "class": "center" },
-			            { "data": "pnsid" , "class": "center" },
+			            { "data": "pnsgid" , "class": "center",'bVisible':false },
+			            { "data": "pnsid" , "class": "center",'bVisible':false },
+			            { "data": "currency-type" , "class": "center" , "render": function(data, type, row) {
+				                return getCurrencyType(row);
+
+				            }
+				        },
 			            { "data": "margin" , "class": "center" },
 			            { "data": "freemargin" , "class": "center" },
 			            { "data": "equity" , "class": "center" , "render": function(data, type, row) {
@@ -310,9 +315,16 @@ function createNewWallet(){
 
 $("#submitNewWallet").on("click",function(){
 
-	var pnsid = $("#wallet_pnsid").val();
+	
+	var digitalCurrencyType = $("#digitalCurrencyType").val();
 
-	var pnsgid = $("#wallet_pnsgid").val();		
+	var arr = digitalCurrencyType.split(",");
+
+
+
+	var pnsid = arr[0];
+
+	var pnsgid = arr[1];	
 
 	var clientid = getCustomerId();
 

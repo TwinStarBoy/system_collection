@@ -1,5 +1,14 @@
 function publish(){
 
+	var digitalCurrencyType = $("#digitalCurrencyType").val();
+
+	var arr = digitalCurrencyType.split(",");
+    
+    var pnsid = arr[0];
+
+	var pnsgid = arr[1];	
+
+
 	var price = $("#price").val();
 
 	var quant = $("#quant").val();
@@ -12,9 +21,9 @@ function publish(){
 
 	var side = $("#side").val();
 
-	var pnsid = $("#pnsid").val();
+	//var pnsid = $("#pnsid").val();
 
-	var pnsgid = $("#pnsgid").val();
+	//var pnsgid = $("#pnsgid").val();
 	
 	var username = getParam("username");
 

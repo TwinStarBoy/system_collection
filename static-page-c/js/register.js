@@ -104,6 +104,7 @@ function register(){
 		            	label: 'Close the dialog',
 					    action: function(dialogRef){
 					      dialogRef.close();   //总是能关闭弹出框
+					      window.location.href = "login.html";
 					    }
 		            }]
 		        });
