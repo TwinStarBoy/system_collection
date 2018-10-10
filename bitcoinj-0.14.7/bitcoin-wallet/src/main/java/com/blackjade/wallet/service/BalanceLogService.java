@@ -216,6 +216,7 @@ public class BalanceLogService {
             cDepositUpdate.setQuant(quant);
             cDepositUpdate.setFees(0L);
             cDepositUpdate.setRcvquant(rcvquant);
+            cDepositUpdate.setToaddress(receiveAddress);
             cDepositUpdate.setTransactionid(txid);
             cDepositUpdate.setConlvl(com.blackjade.wallet.apis.initiativeReq.dword.ComStatus.DepositOrdStatus.PROCEEDING);
 

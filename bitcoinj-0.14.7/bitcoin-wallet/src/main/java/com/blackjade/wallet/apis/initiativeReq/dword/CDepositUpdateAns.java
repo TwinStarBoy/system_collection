@@ -19,13 +19,15 @@ public class CDepositUpdateAns {
 	private long quant;
 	private long fees;
 	private long rcvquant;
+	private String toaddress;
 	private String transactionid;
 	private DepositOrdStatus conlvl;
 	private DepositAccStatus status;
 
-	public CDepositUpdateAns() {}
+	public CDepositUpdateAns() {
+	}
 
-	public CDepositUpdateAns(UUID requestid){
+	public CDepositUpdateAns(UUID requestid) {
 		this.messageid = "4004";
 		this.requestid = requestid;
 	}
@@ -102,6 +104,14 @@ public class CDepositUpdateAns {
 		this.rcvquant = rcvquant;
 	}
 
+	public String getToaddress() {
+		return toaddress;
+	}
+
+	public void setToaddress(String toaddress) {
+		this.toaddress = toaddress;
+	}
+
 	public String getTransactionid() {
 		return transactionid;
 	}
@@ -128,10 +138,10 @@ public class CDepositUpdateAns {
 
 	@Override
 	public String toString() {
-		return "CDepositUpdateAns [requestid=" + requestid.toString() + ", messageid=" + messageid + ", clientid=" + clientid
+		return "CDepositUpdateAns [requestid=" + requestid + ", messageid=" + messageid + ", clientid=" + clientid
 				+ ", oid=" + oid + ", pnsid=" + pnsid + ", pnsgid=" + pnsgid + ", quant=" + quant + ", fees=" + fees
-				+ ", rcvquant=" + rcvquant + ", transactionid=" + transactionid + ", conlvl=" + conlvl + ", status="
-				+ status + "]";
+				+ ", rcvquant=" + rcvquant + ", toaddress=" + toaddress + ", transactionid=" + transactionid
+				+ ", conlvl=" + conlvl + ", status=" + status + "]";
 	}
 
 }

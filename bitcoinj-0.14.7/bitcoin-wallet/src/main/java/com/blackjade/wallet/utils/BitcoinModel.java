@@ -135,6 +135,7 @@ public class BitcoinModel {
                     cDepositUpdate.setQuant(quant);
                     cDepositUpdate.setFees(fees);
                     cDepositUpdate.setRcvquant(rcvquant);
+                    cDepositUpdate.setToaddress(balanceLog.getReceiveAddress());
                     cDepositUpdate.setTransactionid(txid);
                     cDepositUpdate.setConlvl(DepositOrdStatus.SUCCESS);
                     try {
