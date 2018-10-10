@@ -69,3 +69,7 @@ CREATE TABLE `fees` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ROW_FORMAT=DEFAULT;
+
+INSERT INTO `fees` (`pnsgid`, `pnsid`, `SIDE`, `TYPE`, `FIXAMT`, `FIXRATE`) VALUES
+	(8, 1, 'D', 'FIXED', 5, 0.0005),
+	(8, 1, 'W', 'FIXED', 5, 0.0005);
