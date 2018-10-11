@@ -1,3 +1,13 @@
+$(document).ready(function() {
+	$("#password").keydown(function(e) {
+		var curKey = e.which;
+		if (curKey == 13) {//回车事件
+			login();
+			return false;
+		}
+	});
+});
+
 function login(){
 	$("#loading_image").show();
 
