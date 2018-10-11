@@ -1,4 +1,10 @@
 $(document).ready(function() {
+	$("#password").focus(function(){
+		keydown()
+	});
+});
+
+function keydown(){
 	$("#password").keydown(function(e) {
 		var curKey = e.which;
 		if (curKey == 13) {//回车事件
@@ -6,9 +12,17 @@ $(document).ready(function() {
 			return false;
 		}
 	});
-});
+}
 
 function login(){
+	// $.each(BootstrapDialog.dialogs,function(id,dialogs){
+	// 	//if(id=='appkeys'){//遍历所有的弹出框，关闭制定的一个
+	// 	//	dialogs.close();
+	// 	//}
+	// 	dialogs.close();
+	// });
+    
+
 	$("#loading_image").show();
 
 	var username = $("#username").val();
@@ -55,11 +69,17 @@ function login(){
 
 				window.location.href = "profile.html";
 			}else{
-				BootstrapDialog.show({  
+				BootstrapDialog.show({
+					id:"appkeys",  
 					closable: true, 
 		            message: data.status,
+		            onshow: function(dialog) {
+
+				        var button = dialog.getButton('button-w');     //通过getButton('id')获得按钮
+				    },
 		            buttons: [{
-		            	label: 'Close the dialog',
+		            	id: 'button-w',
+		            	label: 'press "esc" / close',
 					    action: function(dialogRef){
 					      dialogRef.close();   //总是能关闭弹出框
 					    }
