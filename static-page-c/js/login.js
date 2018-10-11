@@ -1,27 +1,28 @@
-$(document).ready(function() {
-	$("#password").focus(function(){
-		keydown()
-	});
-});
+var dlg ;
 
-function keydown(){
-	$("#password").keydown(function(e) {
-		var curKey = e.which;
-		if (curKey == 13) {//回车事件
-			login();
-			return false;
-		}
-	});
-}
+function enterSumbit(){  
+     var event=arguments.callee.caller.arguments[0]||window.event;//消除浏览器差异  
+     if (event.keyCode == 13){  
+        login();  
+     }  
+}  
 
 function login(){
-	// $.each(BootstrapDialog.dialogs,function(id,dialogs){
-	// 	//if(id=='appkeys'){//遍历所有的弹出框，关闭制定的一个
-	// 	//	dialogs.close();
-	// 	//}
-	// 	dialogs.close();
-	// });
-    
+	// 关闭弹出框 开始..................
+	$.each(BootstrapDialog.dialogs, function(id, dialogs) {
+		//if(id=='appkeys'){//遍历所有的弹出框，关闭制定的一个
+		//	dialogs.close();
+		//}
+		dialogs.close();
+	});
+
+	if (dlg != null || dlg != undefined){
+		dlg.close();
+	}
+
+	$("#appkeys").css("z-index:-1");
+	$("#appkeys").remove() ;
+	// 关闭弹出框 结束..................
 
 	$("#loading_image").show();
 
@@ -69,22 +70,24 @@ function login(){
 
 				window.location.href = "profile.html";
 			}else{
-				BootstrapDialog.show({
-					id:"appkeys",  
-					closable: true, 
-		            message: data.status,
-		            onshow: function(dialog) {
+				dlg = BootstrapDialog.show({
+					id: "appkeys",
+					closable: true,
+					message: data.status,
+					onshow: function(dialog) {
 
-				        var button = dialog.getButton('button-w');     //通过getButton('id')获得按钮
-				    },
-		            buttons: [{
-		            	id: 'button-w',
-		            	label: 'press "esc" / close',
-					    action: function(dialogRef){
-					      dialogRef.close();   //总是能关闭弹出框
-					    }
-		            }]
-		    });
+						var button = dialog.getButton('button-w'); //通过getButton('id')获得按钮
+					},
+					buttons: [{
+						id: 'button-w',
+						label: 'press "esc" / close',
+						action: function(dialogRef) {
+							dialogRef.close(); //总是能关闭弹出框
+						}
+					}]
+				});
+
+				
 			}
         },
         error:function(){
