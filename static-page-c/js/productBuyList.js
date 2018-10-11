@@ -70,6 +70,11 @@ function createData(){
 				        { "data": "chat" , "class": "center" , "render": function(data, type, row) {
 				                return  '<a href="javascript:void(0);" onclick="chatMultipleOrder(this)" style="cursor:pointer">chat</a>' ;
 				            }
+				        },
+				        { "data": "pay-type" , "class": "center" , "render": function(data, type, row) {
+			            	    //return "<a background-image=url('./img/wechat.png') width='30' height='30'  />";
+			            	    return "<img src='./img/wechat.png' width='30' height='30'/>&nbsp;<img src='./img/zhifubao.jpg' width='30' height='30' />";
+				            }
 				        }
 			        ],
 			        /*
