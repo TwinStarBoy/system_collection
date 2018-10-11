@@ -43,7 +43,8 @@ function login(){
 			$("#loading_image").hide();
 			console.log(data);
 			if(data.status == undefined){
-				BootstrapDialog.show({  
+				dlg = BootstrapDialog.show({ 
+					id: "appkeys", 
 					closable: true, 
 		            message: "busy service , please try again after 5 minutes .",
 		            buttons: [{
@@ -80,7 +81,7 @@ function login(){
 					},
 					buttons: [{
 						id: 'button-w',
-						label: 'press "esc" / close',
+						label: 'close',
 						action: function(dialogRef) {
 							dialogRef.close(); //总是能关闭弹出框
 						}
