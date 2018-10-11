@@ -20,14 +20,14 @@ function resetTable(){
 
 function createData(){
 	var table = $('#example').DataTable( {
-			    	"bPaginate": true, //??ҳ
+			    	"bPaginate": true, //??Ò³
 			        "processing": true,
 			        "serverSide": true,
 			        "bFilter": false, //????
-			        "bLengthChange": false, //ѡ????ҳ??
-			        "iDisplayLength" : 10,// ÿҳ??ʾ????   
+			        "bLengthChange": false, //Ñ¡????Ò³??
+			        "iDisplayLength" : 10,// Ã¿Ò³??Ê¾????   
 			        "bSort": false, //????
-			        "bInfo": true,//չʾҳ????Ϣ
+			        "bInfo": true,//Õ¹Ê¾Ò³????Ï¢
 			        //"ordering": false,
 			        
 			        "ajax": {
@@ -70,6 +70,11 @@ function createData(){
 				        { "data": "chat" , "class": "center" , "render": function(data, type, row) {
 				                return  '<a href="javascript:void(0);" onclick="chatMultipleOrder(this)" style="cursor:pointer">chat</a>' ;
 				            }
+				        },
+				        { "data": "pay-type" , "class": "center" , "render": function(data, type, row) {
+			            	    //return "<a background-image=url('./img/wechat.png') width='30' height='30'  />";
+			            	    return "<img src='./img/wechat.png' width='30' height='30'/>&nbsp;<img src='./img/zhifubao.jpg' width='30' height='30' />";
+				            }
 				        }
 			        ],
 			        /*
@@ -87,26 +92,26 @@ function createData(){
 			        /*
 			        language: {
 				        "sProcessing": "??????...",
-				        "sLengthMenu": "??ʾ _MENU_ ??????",
-				        "sZeroRecords": "û??ƥ??????",
-				        "sInfo": "??ʾ?? _START_ ?? _END_ ?????????? _TOTAL_ ??",
-				        "sInfoEmpty": "??ʾ?? 0 ?? 0 ?????????? 0 ??",
+				        "sLengthMenu": "??Ê¾ _MENU_ ??????",
+				        "sZeroRecords": "Ã»??Æ¥??????",
+				        "sInfo": "??Ê¾?? _START_ ?? _END_ ?????????? _TOTAL_ ??",
+				        "sInfoEmpty": "??Ê¾?? 0 ?? 0 ?????????? 0 ??",
 				        "sInfoFiltered": "(?? _MAX_ ??????????)",
 				        "sInfoPostFix": "",
 				        "sSearch": "????:",
 				        "sUrl": "",
-				        "sEmptyTable": "????????Ϊ??",
+				        "sEmptyTable": "????????Îª??",
 				        "sLoadingRecords": "??????...",
 				        "sInfoThousands": ",",
 				        "oPaginate": {
-				            "sFirst": "??ҳ",
-				            "sPrevious": "??ҳ",
-				            "sNext": "??ҳ",
-				            "sLast": "ĩҳ"
+				            "sFirst": "??Ò³",
+				            "sPrevious": "??Ò³",
+				            "sNext": "??Ò³",
+				            "sLast": "Ä©Ò³"
 				        },
 				        "oAria": {
-				            "sSortAscending": ": ?????????д???",
-				            "sSortDescending": ": ?Խ??????д???"
+				            "sSortAscending": ": ?????????Ð´???",
+				            "sSortDescending": ": ?Ô½??????Ð´???"
 				        }
 				    }, */
 
@@ -116,7 +121,7 @@ function createData(){
 
 				/*$('#example tbody').on('click', 'tr', function () { 
 					
-					var data = table.row(this).data(); //??ȡ???е?????
+					var data = table.row(this).data(); //??È¡???Ðµ?????
 
 				} ); */
 
@@ -132,7 +137,7 @@ var faceName ;
 					var tr = td.parent();
 					console.log(tr);
 					var table = $('#example').DataTable();
-					var data = table.row(tr).data(); //??ȡ???е?????
+					var data = table.row(tr).data(); //??È¡???Ðµ?????
 					console.log(data);
 
 					faceName = data.poname;
@@ -159,8 +164,8 @@ var faceName ;
 				    form.append(price,pnsoid,poid,side,messageid);
 
 				    $('#myModal').modal({
-				    	backdrop: 'static',//������ֲ㲻�ر�ģ̬��
-				        keyboard: true//��esc�����˳�ģ̬��
+				    	backdrop: 'static',//µã»÷ÕÚÕÖ²ã²»¹Ø±ÕÄ£Ì¬¿ò
+				        keyboard: true//°´esc¼ü£¬ÍË³öÄ£Ì¬¿ò
 				    })
 	        }
 
@@ -204,7 +209,7 @@ var faceName ;
 				var tr = td.parent();
 				console.log(tr);
 				var table = $('#example').DataTable();
-				var data = table.row(tr).data(); //??ȡ???е?????
+				var data = table.row(tr).data(); //??È¡???Ðµ?????
 				console.log(data);
 
 				faceName = data.poname;
@@ -227,7 +232,7 @@ var faceName ;
 						var html
 						for(var i=0;i<data.length;i++){
 							var status = data[i].status;
-							if("DEALING" == status){//����Ϊ"δ֧��"
+							if("DEALING" == status){//¶©µ¥Îª"Î´Ö§¸¶"
 								html += "<div>this order need to be confirmed , please click confirm button <input type='button' value='confirm' onclick='pay()'/></div><br/>";
 													
 							}
@@ -252,7 +257,7 @@ var faceName ;
 				
 	        }
 
-	        function chatOneOrder(object){//�鿴����"δ֧��ȷ��"�Ķ���
+	        function chatOneOrder(object){//²é¿´µ¥¸ö"Î´Ö§¸¶È·ÈÏ"µÄ¶©µ¥
 				chat(object);
 	        }
 
@@ -266,7 +271,7 @@ var faceName ;
 						console.log(data);
 
 						var status = data.ord.status;
-						if("DEALING" == status){//����Ϊ"δ֧��"
+						if("DEALING" == status){//¶©µ¥Îª"Î´Ö§¸¶"
                             
                             var strData = JSON.stringify(data);
 							var time = new Date(data.ord.timestamp).format("yyyy-MM-dd hh:mm:ss");
@@ -279,7 +284,7 @@ var faceName ;
                             orderStatus += "<div>status:" + data.ord.status +"</div>";
 							orderStatus += "<input type='button' value='pay' onclick='pay(" + strData + ")'/>";
 							orderStatus += "</div>";
-							chat(orderStatus);//�������							
+							chat(orderStatus);//´ò¿ªÁÄÌì¿ò							
 						}
 						
 			        }
@@ -386,7 +391,7 @@ var faceName ;
 							side:data.side,
 							clientid:getCustomerId()
 						};
-						searchOneOrder(searchParams);//��ѯ����״̬
+						searchOneOrder(searchParams);//²éÑ¯¶©µ¥×´Ì¬
 			        }
 				});
 
@@ -394,8 +399,8 @@ var faceName ;
 			});
 
 			function closeModal(){
-				$('#myModal').modal('hide');//????ģ̬??
-				//???ձ???
+				$('#myModal').modal('hide');//????Ä£Ì¬??
+				//???Õ±???
 				$("#myModal :input").not(":button, :submit, :reset, :hidden, :checkbox, :radio").val(""); 
                 $("#myModal :input").removeAttr("checked").remove("selected");  
 			}
