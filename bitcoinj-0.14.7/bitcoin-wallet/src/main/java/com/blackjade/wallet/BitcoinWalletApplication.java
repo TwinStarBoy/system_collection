@@ -62,6 +62,8 @@ public class BitcoinWalletApplication extends Application {
 	@Value("${btc-environment}")
 	public String btcEnvironment;
 
+	public static String enviroment;
+
 	public static void main(String[] args) {
 		// 启动web
 		ApplicationContext ctx = SpringApplication.run(BitcoinWalletApplication.class, args);
@@ -146,10 +148,15 @@ public class BitcoinWalletApplication extends Application {
 
 	@PostConstruct
 	public void init(){
-		System.out.println("比特币连接的环境:"+btcEnvironment);
-		if ("test".equals(btcEnvironment)){
+
+		if (enviroment == null){
+			enviroment = btcEnvironment;
+		}
+
+		System.out.println("比特币连接的环境:"+enviroment);
+		if ("test".equals(enviroment)){
 			params = TestNet3Params.get();
-		}else if ("prod".equals(btcEnvironment)){
+		}else if ("prod".equals(enviroment)){
 			params = MainNetParams.get();
 		}
 		System.out.println("我被初始化了、、、、、我是用的@PostConstruct的方式、、、、、、");

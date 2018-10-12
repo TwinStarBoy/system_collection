@@ -22,6 +22,7 @@ import org.myutils.apis.*;
 import org.myutils.model.BalanceLog;
 import org.myutils.util.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -42,7 +43,10 @@ public class BitcoinModel {
     @Autowired
     BalanceLogService balanceLogService;
 
-    private final static int DEPTH = 6;
+    @Value("${btc-environment}")
+    public String btcEnvironment;
+
+    private final static int DEPTH = 1;
 
     private SimpleObjectProperty<Address> address = new SimpleObjectProperty<>();
 //    private SimpleObjectProperty<Coin> balance = new SimpleObjectProperty<>(Coin.ZERO);
@@ -113,6 +117,11 @@ public class BitcoinModel {
 //                if (depth < DEPTH){
 //                    return;
 //                }
+                if ("prod".equals(BitcoinWalletApplication.enviroment)){
+                    if (depth < DEPTH){
+                        return ;
+                    }
+                }
 
                 BalanceLogService balanceLogService = (BalanceLogService) BitcoinWalletApplication.applicationContext.getBean("balanceLogService");
                 BalanceLog balanceLog = balanceLogService.getBalanceLogByTxid(txid);
