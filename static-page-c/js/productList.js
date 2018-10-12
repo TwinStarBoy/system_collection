@@ -59,8 +59,14 @@ function createData(){
 			            { "data": "poid" , "class": "center" },
 			            { "data": "poname" , "class": "center" },
 			            { "data": "price" , "class": "center" },
-			            { "data": "quant" , "class": "center" },
-			            { "data": "net" , "class": "center" },
+			            { "data": "quant" , "class": "center" , "render": function(data, type, row) {
+				                return  row.quant + "(" + getBTCUnit(row.quant) + ")";
+				            }
+				        },
+			            { "data": "net" , "class": "center" , "render": function(data, type, row) {
+				                return  row.net + "(" + getBTCUnit(row.net) + ")";
+				            }
+				        },
 			            { "data": "min" , "class": "center" },
 			            { "data": "max" , "class": "center" },
 			            { "data": "operate" , "class": "center" , "render": function(data, type, row) {
@@ -71,9 +77,9 @@ function createData(){
 				                return  '<a href="javascript:void(0);" onclick="chatMultipleOrder(this)" style="cursor:pointer">chat</a>' ;
 				            }
 				        },
-				        { "data": "pay-type" , "class": "center" , "render": function(data, type, row) {
+				        { "data": "pay-type" , "class": "center" ,sWidth:"100", "render": function(data, type, row) {
 			            	    //return "<a background-image=url('./img/wechat.png') width='30' height='30'  />";
-			            	    return "<img src='./img/wechat.png' width='30' height='30'/>&nbsp;<img src='./img/zhifubao.jpg' width='30' height='30' />";
+			            	    return "<img src='./img/wechat.png' width='30' height='30'/>&nbsp;<img src='./img/alipay.jpg' width='30' height='30' />";
 				            }
 				        }
 			        ],

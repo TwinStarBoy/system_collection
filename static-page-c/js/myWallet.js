@@ -56,11 +56,18 @@ function createData(){
 
 				            }
 				        },
-			            { "data": "margin" , "class": "center" },
-			            { "data": "freemargin" , "class": "center" },
+			            { "data": "margin" , "class": "center" , "render": function(data, type, row) {
+				                return  row.margin + "(" + getBTCUnit(row.margin) + ")";
+				            }
+				        },
+			            { "data": "freemargin" , "class": "center" , "render": function(data, type, row) {
+				                return  row.freemargin + "(" + getBTCUnit(row.freemargin) + ")";
+				            }
+				        },
 			            { "data": "equity" , "class": "center" , "render": function(data, type, row) {
 				                var equity = row.margin + row.freemargin;
-				                return equity;
+				                return  equity + "(" + getBTCUnit(equity) + ")";
+				                
 
 				            }
 				        },

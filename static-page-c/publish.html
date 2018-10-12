@@ -32,7 +32,7 @@
 							<div class="control-group">
 								<label class="control-label" for="quant">quant :</label>
 								<div class="controls">
-									<input type="number" class="input-xlarge" id="quant" value="" size="16"/>
+									<input type="number" class="input-xlarge" id="quant" value="" size="16" onkeydown="estimate()"/>
 								</div>
 							</div>
 							<div class="control-group">
@@ -100,7 +100,7 @@
 							<input type="hidden" id="id" value="" />						
 							<div class="form-actions">
 								<button type="button" class="btn btn-primary" onclick="publish()">Publish</button> 
-								<button type="button" class="btn btn-primary" onclick="publish()">Publish Again</button>
+								<button type="button" class="btn btn-primary" onclick="reset()">reset form</button>
 							</div>
 						</fieldset>
 					</form>

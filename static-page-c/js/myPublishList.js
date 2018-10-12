@@ -63,10 +63,16 @@ function createData(){
 			            { "data": "pnsoid" , "class": "center" },
 			            { "data": "poid" , "class": "center" },
 			            { "data": "price" , "class": "center" },
-			            { "data": "quant" , "class": "center" },
+			            { "data": "quant" , "class": "center" , "render": function(data, type, row) {
+				                return  row.quant + "(" + getBTCUnit(row.quant) + ")";
+				            }
+				        },
 			            { "data": "traded" , "class": "center" },
 			            { "data": "margin" , "class": "center" },
-			            { "data": "net" , "class": "center" },
+			            { "data": "net" , "class": "center" , "render": function(data, type, row) {
+			            		return  row.net + "(" + getBTCUnit(row.net) + ")";
+				            }
+				        },
 			            { "data": "can" , "class": "center" },
 			            { "data": "max" , "class": "center" },
 			            { "data": "min" , "class": "center" },

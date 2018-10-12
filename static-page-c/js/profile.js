@@ -1,4 +1,6 @@
 $(function(){
+	var username = getUserName();
+	$("#account").val(username);
 	scanPersonalInformation();
 });
 
