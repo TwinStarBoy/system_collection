@@ -5,6 +5,7 @@ import com.blackjade.wallet.controller.MainController;
 import com.blackjade.wallet.controller.SendBtcThread;
 import com.blackjade.wallet.controller.WalletSetPasswordController;
 import com.blackjade.wallet.utils.BitcoinModel;
+import com.blackjade.wallet.utils.Constant;
 import com.google.common.util.concurrent.Service;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -48,8 +49,7 @@ public class BitcoinWalletApplication extends Application {
 //    public static NetworkParameters params = RegTestParams.get();
 
 	public static final String APP_NAME = "SimpleWallet";
-	private static final String WALLET_FILE_NAME = APP_NAME.replaceAll("[^a-zA-Z0-9.-]", "_") + "-"
-			+ params.getPaymentProtocolId();
+	private static String WALLET_FILE_NAME ;
 
 	public static WalletAppKit bitcoin;
 
@@ -154,11 +154,16 @@ public class BitcoinWalletApplication extends Application {
 		}
 
 		System.out.println("比特币连接的环境:"+enviroment);
-		if ("test".equals(enviroment)){
+		if (Constant.TEST.equals(enviroment)){
 			params = TestNet3Params.get();
-		}else if ("prod".equals(enviroment)){
+		}else if (Constant.MAIN.equals(enviroment)){
 			params = MainNetParams.get();
+		}else if (Constant.REGTEST.equals(enviroment)){
+			params = RegTestParams.get();
 		}
+
+		WALLET_FILE_NAME = APP_NAME.replaceAll("[^a-zA-Z0-9.-]", "_") + "-"
+				+ params.getPaymentProtocolId();
 		System.out.println("我被初始化了、、、、、我是用的@PostConstruct的方式、、、、、、");
 	}
 

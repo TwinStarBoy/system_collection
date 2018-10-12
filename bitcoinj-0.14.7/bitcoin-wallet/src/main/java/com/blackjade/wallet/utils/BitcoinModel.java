@@ -14,6 +14,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import org.bitcoinj.core.*;
 import org.bitcoinj.core.listeners.DownloadProgressTracker;
 import org.bitcoinj.core.listeners.TransactionConfidenceEventListener;
+import org.bitcoinj.params.MainNetParams;
 import org.bitcoinj.wallet.Wallet;
 import org.bitcoinj.wallet.listeners.WalletChangeEventListener;
 import org.bitcoinj.wallet.listeners.WalletCoinsReceivedEventListener;
@@ -117,7 +118,7 @@ public class BitcoinModel {
 //                if (depth < DEPTH){
 //                    return;
 //                }
-                if ("prod".equals(BitcoinWalletApplication.enviroment)){
+                if (BitcoinWalletApplication.params == MainNetParams.get()){
                     if (depth < DEPTH){
                         return ;
                     }

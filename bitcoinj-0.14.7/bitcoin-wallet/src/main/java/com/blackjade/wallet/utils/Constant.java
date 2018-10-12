@@ -6,4 +6,8 @@ package com.blackjade.wallet.utils;
 public class Constant {
     public static final int OPERATE_TYPE_DEPOSIT = 2;
     public static final int OPERATE_TYPE_WITHDRAW = 1;
+
+    public static final String TEST = "test";
+    public static final String REGTEST = "regtest";
+    public static final String MAIN = "main";
 }
