@@ -84,8 +84,9 @@ function createData(){
 				        },
 				        { "data": "pay-type" , "class": "center" ,sWidth:"100", "render": function(data, type, row) {
 			            	    //return "<a background-image=url('./img/wechat.png') width='30' height='30'  />";
-			            	    return "<img src='./img/wechat.png' width='30' height='30'/>&nbsp;" +
-			            	    "<img src='./img/alipay.jpg' width='30' height='30' />";
+			            	    return "<img src='./img/wechat.png' width='25' height='25'/>&nbsp;" +
+			            	    "<img src='./img/alipay.jpg' width='25' height='25' />&nbsp;" + 
+			            	    "<img src='./img/bankcard.png' width='40' height='30' />";
 				            }
 				        }
 			        ],
@@ -259,7 +260,7 @@ var faceName ;
 
 	        function searchOneOrder(params){
 	        	params.clientid = getCustomerId();
-	        	
+
 	        	$.ajax({
 					url:urlSubscriberPrefix() + "ownord",
 					contentType : 'application/json',
