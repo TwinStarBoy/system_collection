@@ -67,12 +67,18 @@ function modifyPersonalInformation(){
 
 	var identification = $("#identification").val();
 
+	var wechatid = $("#wechatid").val();
+
+	var alipay = $("alipay").val();
+
 	var params = {	
 		messageid:"0x0013",
 		requestid:generateUUID(),
 		mobile:mobile,
 		identification:identification,
-		clientid:clientid
+		clientid:clientid,
+		wechatid:wechatid,
+		alipay:alipay
 	};
 	
 	$.ajax({

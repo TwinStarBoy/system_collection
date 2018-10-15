@@ -1,5 +1,7 @@
 var url = "jsonTest/publisher.json?adc=1&cde=1&333";
 
+var pnsid = 1;
+var pnsgid = 8;
 var pnsid_global = 1;
 var pnsgid_global = 8;
 var messageid_global = "701C";
@@ -8,6 +10,11 @@ var side_global = "S";
 
 $(document).ready(function() {
 	createData();
+	$('#side').change(function(){
+		
+		var side = $('#side').val();
+		refeshTable(side);
+	})
 } );
 
 function refeshTable(type){
@@ -18,6 +25,7 @@ function refeshTable(type){
 function resetTable(){
 	pnsid_global = pnsid;
 	pnsgid_global = pnsgid;
+	
 	$('#example').DataTable().ajax.reload();
 }
 

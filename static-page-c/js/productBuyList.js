@@ -59,7 +59,8 @@ function createData(){
 			            { "data": "pnsoid" , "class": "center" },
 			            { "data": "poid" , "class": "center" },
 			            { "data": "poname" , "class": "center" , "render": function(data, type, row) {
-				                return  '<a href="#" class="tooltip-test" data-toggle="tooltip" title="默认的 Tooltip">'+row.poname+'</a>';
+				                //return  '<a href="#" class="tooltip-test" data-toggle="tooltip" title="默认的 Tooltip">'+row.poname+'</a>';
+				                return row.poname;
 				            }
 				        },
 			            { "data": "price" , "class": "center" },
@@ -257,6 +258,8 @@ var faceName ;
 	        }
 
 	        function searchOneOrder(params){
+	        	params.clientid = getCustomerId();
+	        	
 	        	$.ajax({
 					url:urlSubscriberPrefix() + "ownord",
 					contentType : 'application/json',
