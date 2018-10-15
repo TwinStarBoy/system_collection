@@ -138,7 +138,7 @@ var faceName ;
 					var data = table.row(tr).data(); //??取???械?????
 					console.log(data);
 
-					faceName = data.poname;
+					faceName = data.cname;
 
 
 					var strData = JSON.stringify(data);
