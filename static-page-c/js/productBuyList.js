@@ -259,29 +259,31 @@ var faceName ;
 	        }
 
 	        function searchOneOrder(params){
+	        	params.requestid = generateUUID();
+	        	params.messageid = "6031";
 	        	params.clientid = getCustomerId();
 
 	        	$.ajax({
-					url:urlSubscriberPrefix() + "ownord",
+					url:urlSubscriberPrefix() + "ownsingleorder",
 					contentType : 'application/json',
 					data:JSON.stringify(params),
 					type: 'POST',
 					success:function(data){
 						console.log(data);
 
-						var status = data.ord.status;
-						var side = data.side;
+						var status = data.ordrow.status;
+						var side = data.ordrow.side;
 						if("DEALING" == status && side == "B"){//订单为"未支付"
                             
                             var strData = JSON.stringify(data);
-							var time = new Date(data.ord.timestamp).format("yyyy-MM-dd hh:mm:ss");
-							var orderStatus = "<div id='" + data.ord.oid + "'>"
+							var time = new Date(data.ordrow.timestamp).format("yyyy-MM-dd hh:mm:ss");
+							var orderStatus = "<div id='" + data.ordrow.oid + "'>"
 							orderStatus += "<div>this order need to be confirmed , please click confirm button :</div>";
-                            orderStatus += "<div>order id:" + data.ord.oid + "</div>"
+                            orderStatus += "<div>order id:" + data.ordrow.oid + "</div>"
                             orderStatus += "<div>time:" + time + "</div>"
-                            orderStatus += "<div>price:" + data.ord.price +"</div>";
-                            orderStatus += "<div>quant:" + data.ord.quant +"</div>";
-                            orderStatus += "<div>status:" + data.ord.status +"</div>";
+                            orderStatus += "<div>price:" + data.ordrow.price +"</div>";
+                            orderStatus += "<div>quant:" + data.ordrow.quant +"</div>";
+                            orderStatus += "<div>status:" + data.ordrow.status +"</div>";
 							orderStatus += "<input type='button' value='pay' onclick='payConfirm(" + strData + ")'/>";
 							orderStatus += "</div>";
 							chat(orderStatus);//打开聊天框							
@@ -290,14 +292,14 @@ var faceName ;
 						if("DEALING" == status && side == "S"){//订单需要发布买产品的人支付
                             
                             var strData = JSON.stringify(data);
-							var time = new Date(data.ord.timestamp).format("yyyy-MM-dd hh:mm:ss");
-							var orderStatus = "<div id='" + data.ord.oid + "'>"
+							var time = new Date(data.ordrow.timestamp).format("yyyy-MM-dd hh:mm:ss");
+							var orderStatus = "<div id='" + data.ordrow.oid + "'>"
 							orderStatus += "<div>this order need to be paid , please wait buyer to pay :</div>";
-                            orderStatus += "<div>order id:" + data.ord.oid + "</div>"
+                            orderStatus += "<div>order id:" + data.ordrow.oid + "</div>"
                             orderStatus += "<div>time:" + time + "</div>"
-                            orderStatus += "<div>price:" + data.ord.price +"</div>";
-                            orderStatus += "<div>quant:" + data.ord.quant +"</div>";
-                            orderStatus += "<div>status:" + data.ord.status +"</div>";
+                            orderStatus += "<div>price:" + data.ordrow.price +"</div>";
+                            orderStatus += "<div>quant:" + data.ordrow.quant +"</div>";
+                            orderStatus += "<div>status:" + data.ordrow.status +"</div>";
 							orderStatus += "</div>";
 							chat(orderStatus);//打开聊天框							
 						}
