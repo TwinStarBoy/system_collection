@@ -246,6 +246,7 @@ var faceName ;
                 var orderGroup = $("#orderGroup");
                 orderGroup.empty();
                 orderGroup.append(orderStatus);
+                
 
                 var chatGroup = $("#chatGroup");
                 chatGroup.empty();
@@ -254,7 +255,7 @@ var faceName ;
 	        	$( "#dialog-confirm" ).dialog({
 			      resizable: true,
 			      height:530,
-			      width:512,
+			      width:600,
 			      modal: false,
 			      buttons: {
 			        "close": function() {

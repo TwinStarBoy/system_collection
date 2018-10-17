@@ -35,7 +35,8 @@ function createData(){
 			            "url": urlSubscriberPrefix() + "market",
 			            "contentType" : 'application/json',
 			            "data": function ( d ) {
-			            	  
+			            	  d.requestid = generateUUID();;
+			            	  d.messageid = "0x6021";
 			            	  d.side = "S";
 			            	  d.pnsid = pnsid;
 			            	  d.pnsgid = pnsgid;
@@ -77,7 +78,7 @@ function createData(){
 				                return  '<a href="javascript:void(0);" onclick="chatMultipleOrder(this)" style="cursor:pointer">chat</a>' ;
 				            }
 				        },
-				        { "data": "pay-type" , "class": "center" ,sWidth:"100", "render": function(data, type, row) {
+				        { "data": "pay-type" , "class": "center" ,sWidth:"120", "render": function(data, type, row) {
 			            	    //return "<a background-image=url('./img/wechat.png') width='30' height='30'  />";
 			            	    return "<img src='./img/wechat.png' width='25' height='25'/>&nbsp;<img src='./img/alipay.jpg' width='25' height='25' />&nbsp;<img src='./img/bankcard.png' width='40' height='30' />";
 				            }
@@ -198,11 +199,12 @@ var faceName ;
 	        	$( "#dialog-confirm" ).dialog({
 			      resizable: true,
 			      height:530,
-			      width:512,
+			      width:600,
 			      modal: false,
 			      buttons: {
 			        "close": function() {
 			          $( this ).dialog( "close" );
+			          resetTable();
 			        }
 			      }
 			    });

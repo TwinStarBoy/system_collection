@@ -23,6 +23,9 @@ function scanPersonalInformation(){
 				
 				$("#mobile").val(data.mobile);
 				$("#identification").val(data.identification);
+				$("#wechatid").val(data.wechatid);
+				$("#alipay").val(data.alipay);
+				$("#bankCard").val(data.bankCard);
 				$("#id").val(data.clientid);
 			}else{
 				BootstrapDialog.show({  
@@ -69,7 +72,9 @@ function modifyPersonalInformation(){
 
 	var wechatid = $("#wechatid").val();
 
-	var alipay = $("alipay").val();
+	var alipay = $("#alipay").val();
+
+	var bankCard = $("#bankCard").val();
 
 	var params = {	
 		messageid:"0x0013",
@@ -78,7 +83,8 @@ function modifyPersonalInformation(){
 		identification:identification,
 		clientid:clientid,
 		wechatid:wechatid,
-		alipay:alipay
+		alipay:alipay,
+		bankCard:bankCard
 	};
 	
 	$.ajax({

@@ -75,12 +75,14 @@ function createData(){
 			            	}
 			            },
 			            { "data": "status" , "class": "center" , "render": function(data, type, row) {
-				            	if("DEALING" == data){
+				            	if("DEALING" == data && row["side"] == "B"){
 				            		var cancel =  '<a href="javascript:void(0);" onclick="cancelOrder(this)" style="cursor:pointer">cancel</a>' ;
 				            		var pay = '<a href="javascript:void(0);" onclick="openDialog(this)" style="cursor:pointer">pay</a>' ;
 
 				            		return cancel + " / " + pay ;
 				            	}
+
+				            	
 
 				            	if("PAID" == data && row["side"] == "S"){//支付确认
 			            	    	return '<a href="javascript:void(0);" onclick="openPaidConfirmDialog(this)" style="cursor:pointer">paid confirm</a>' ;
@@ -316,6 +318,7 @@ var faceName ;
 			      buttons: {
 			        "close": function() {
 			          $( this ).dialog( "close" );
+			          resetTable();
 			        }
 			      }
 			    });
@@ -329,7 +332,7 @@ var faceName ;
 	        					requestid:generateUUID(),
                             	clientid:getCustomerId(),
                             	oid:strData.oid,
-                            	cid:strData.cid,
+                            	cid:getCustomerId(),
                             	side:strData.side,
                             	pnsoid:strData.pnsoid,
                             	poid:strData.poid,

@@ -69,7 +69,7 @@ function login(){
                 document.cookie = cookie1 ;
                 */
 
-				window.location.href = "profile.html";
+				window.location.href = "productList.html";
 			}else{
 				dlg = BootstrapDialog.show({
 					id: "appkeys",

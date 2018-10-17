@@ -36,7 +36,8 @@ function createData(){
 			            "url": urlSubscriberPrefix() + "market",
 			            "contentType" : 'application/json',
 			            "data": function ( d ) {
-			            	  
+			            	  d.requestid = generateUUID();;
+			            	  d.messageid = "0x6021";
 			            	  d.side = "B";
 			            	  d.pnsid = pnsid;
 			            	  d.pnsgid = pnsgid;
@@ -75,14 +76,14 @@ function createData(){
 			            { "data": "min" , "class": "center" },
 			            { "data": "max" , "class": "center" },
 			            { "data": "operate" , "class": "center" , "render": function(data, type, row) {
-				                return  '<a href="javascript:void(0);" onclick="sale(this)" style="cursor:pointer">sale</a>' ;
+				                return  '<a href="javascript:void(0);" onclick="sale(this)" style="cursor:pointer">Sell</a>' ;
 				            }
 				        },
 				        { "data": "chat" , "class": "center" , "render": function(data, type, row) {
 				                return  '<a href="javascript:void(0);" onclick="chatMultipleOrder(this)" style="cursor:pointer">chat</a>' ;
 				            }
 				        },
-				        { "data": "pay-type" , "class": "center" ,sWidth:"100", "render": function(data, type, row) {
+				        { "data": "pay-type" , "class": "center" ,sWidth:"120", "render": function(data, type, row) {
 			            	    //return "<a background-image=url('./img/wechat.png') width='30' height='30'  />";
 			            	    return "<img src='./img/wechat.png' width='25' height='25'/>&nbsp;" +
 			            	    "<img src='./img/alipay.jpg' width='25' height='25' />&nbsp;" + 
@@ -210,6 +211,7 @@ var faceName ;
 			      buttons: {
 			        "close": function() {
 			          $( this ).dialog( "close" );
+			          resetTable();
 			        }
 			      }
 			    });
