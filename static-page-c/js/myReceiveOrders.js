@@ -226,6 +226,8 @@ var faceName ;
                             //orderStatus += "<div>status:" + data.status +"</div>";
 							orderStatus += "</div>";
 							orderId.append(orderStatus);
+						}else{
+							errDialog(status);
 						}
 			        }
 				});
@@ -307,6 +309,8 @@ var faceName ;
                             //orderStatus += "<div>status:" + data.status +"</div>";
 							orderStatus += "</div>";
 							orderId.append(orderStatus);
+						}else{
+							errDialog(status);
 						}
 			        }
 				});

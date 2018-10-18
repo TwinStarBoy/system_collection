@@ -79,7 +79,8 @@ function createData(){
 				                return  '<a href="javascript:void(0);" onclick="sale(this)" style="cursor:pointer">Sell</a>' ;
 				            }
 				        },
-				        { "data": "chat" , "class": "center" , "render": function(data, type, row) {
+				        { "data": "chat" , "class": "center" , "bVisible":false , "render": function(data, type, row) {
+				        		//可以不要这一列
 				                return  '<a href="javascript:void(0);" onclick="chatMultipleOrder(this)" style="cursor:pointer">chat</a>' ;
 				            }
 				        },

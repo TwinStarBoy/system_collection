@@ -334,3 +334,16 @@ function getBTCUnit(quant){
   var result = quant / 100000000 ;
   return result + "BTC";
 }
+
+function errDialog(status){
+  BootstrapDialog.show({
+    closable: true,
+    message: status,
+    buttons: [{
+      label: 'close',
+      action: function(dialogRef) {
+        dialogRef.close(); //总是能关闭弹出框
+      }
+    }]
+  });
+}
