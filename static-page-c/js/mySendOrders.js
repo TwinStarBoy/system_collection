@@ -83,6 +83,9 @@ function createData(){
 				            	}
 
 				            	
+								if("DEALING" == data && row["side"] == "S"){
+									return '<a href="javascript:void(0);" onclick="openPaidConfirmDialog(this)" style="cursor:pointer">chat</a>' ;	
+								}
 
 				            	if("PAID" == data && row["side"] == "S"){//支付确认
 			            	    	return '<a href="javascript:void(0);" onclick="openPaidConfirmDialog(this)" style="cursor:pointer">paid confirm</a>' ;

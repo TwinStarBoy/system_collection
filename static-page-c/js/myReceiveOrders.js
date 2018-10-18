@@ -68,8 +68,14 @@ function createData(){
 			            	    if("PAID" == data && row["side"] == "B"){//支付确认
 			            	    	return  '<a href="javascript:void(0);" onclick="openDialog(this)" style="cursor:pointer">paid confirm</a>' ;
 			            	    }
+	
+
 			            	    if("DEALING" == data && row["side"] == "S"){//支付订单
 			            	    	return '<a href="javascript:void(0);" onclick="openPayDialog(this)" style="cursor:pointer">pay</a>' ;
+			            	    }
+			            	    if("DEALING" == data && row["side"] == "B"){
+			            	    	//我收到的订单，状态为DEALING,并且side=B，证明还没付款
+			            	    	return  '<a href="javascript:void(0);" onclick="openDialog(this)" style="cursor:pointer">chat</a>' ;
 			            	    }
 				                return  '-' ;
 				            }
