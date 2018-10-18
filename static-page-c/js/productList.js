@@ -310,15 +310,15 @@ var faceName ;
 	        		            messageid:"7005",
 	        		            requestid:generateUUID(),
                             	clientid:getCustomerId(),
-                            	oid:strData.ord.oid,
-                            	cid:strData.ord.cid,
-                            	side:strData.side,
-                            	pnsoid:strData.pnsoid,
-                            	poid:strData.poid,
+                            	oid:strData.ordrow.oid,
+                            	cid:getCustomerId(),
+                            	side:strData.ordrow.side,
+                            	pnsoid:strData.ordrow.pnsoid,
+                            	poid:strData.ordrow.poid,
                             	pnsid:strData.pnsid,
                             	pnsgid:strData.pnsgid,
-                            	price:strData.ord.price,
-                            	quant:strData.ord.quant
+                            	price:strData.ordrow.price,
+                            	quant:strData.ordrow.quant
                             };
 	        	$.ajax({
 					url:urlTradePrefix() + "paid",
@@ -331,7 +331,7 @@ var faceName ;
 						var status = data.status;
 
 						if("SUCCESS" == status){
-							var time = new Date(strData.ord.timestamp).format("yyyy-MM-dd hh:mm:ss");
+							var time = new Date(strData.ordrow.timestamp).format("yyyy-MM-dd hh:mm:ss");
 							var elementId = "#" + data.oid;
 							var orderId = $(elementId);	
 							orderId.empty();
