@@ -167,20 +167,20 @@ function cancelConfirm(object){
             BootstrapDialog.show({  
 							closable: true, 
 							title: "confirm",
-				            message: "Do you want to continue ?",
+				            message: "Do you want to cancel the published order ?",
 				            buttons: [{
-				            	label: 'cancel',
+				            	label: 'Yes',
 							    action: function(dialogRef){
 							      dialogRef.close();   //总是能关闭弹出框
-							      
+							      cancel(object)
 							    }
 				            },
 				            {
-				            	label: 'confirm',
+				            	label: 'No',
 							    action: function(dialogRef){
 							    	
 							      	dialogRef.close();   //总是能关闭弹出框
-							      	cancel(object)
+							      	
 							      
 							    }
 				            }]

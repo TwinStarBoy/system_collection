@@ -435,7 +435,7 @@ var faceName ;
 				detail += '<div class="form-group">';
 				detail += 	'<label for="quant" class="col-sm-2 control-label">'+ key +' : </label>';
 				detail += 	'<div class="col-sm-10">';
-				detail +=   	'<input type="text" class="form-control" id="'+key+'" name="'+key+'" value="'+value+'">';
+				detail +=   	'<input disabled="disabled" type="text" class="form-control" id="'+key+'" name="'+key+'" value="'+value+'">';
 				detail += 	'</div>';
 				detail += '</div>';
 				detail += '<br/>';
