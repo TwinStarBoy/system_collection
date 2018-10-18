@@ -86,12 +86,15 @@ function createData(){
 			            { "data": "min" , "class": "center" },
 			            { "data": "status" , "class": "center" },
 			            { "data": "operate" , "class": "center" , "render": function(data, type, row) {
-			            	    var operate = '<a href="javascript:void(0);" onclick="scanOrder(this)" style="cursor:pointer">scan order</a>' ;
+			            	    //var operate = '<a href="javascript:void(0);" onclick="scanOrder(this)" style="cursor:pointer">scan order</a>' ;
+			            	    var operate = "";
 			            	    if(row["net"] > 0){
 
-			            	    	operate += ' | ' ;
+			            	    	//operate += ' | ' ;
 				                	operate += '<a href="javascript:void(0);" onclick="cancelConfirm(this)" style="cursor:pointer">cancel</a>' ;
 				                
+			            	    }else{
+			            	    	operate = "-";
 			            	    }
 			            	    return operate ;
 				            }
